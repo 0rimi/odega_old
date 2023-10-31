@@ -29,9 +29,10 @@
 		
 		
 		<!-- 장소 추가하기 -->
-		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_addPlace">장소 추가하기</button>
-
-		<!-- Modal -->
+		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_addPlace" onclick="mapOpen()">장소 추가하기</button>		
+	</form>
+	
+	<!-- Modal -->
 		<div class="modal modal-lg fade" id="modal_addPlace" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -77,38 +78,52 @@
 				</div>
 			</div>
 		</div>
-		
-	</form>
 
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0cca8e3b19b74a631f6bc2cee6045b61&libraries=services"></script>
 	<script>
 		// 마커를 담을 배열입니다
 		var markers = [];
 
-		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-		mapOption = {
-			center : new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-			level : 3
-		// 지도의 확대 레벨
-		};
+		var mapContainer;
+		var mapOption;
 
 		// 지도를 생성합니다    
-		var map = new kakao.maps.Map(mapContainer, mapOption);
+		var map;
 
 		// 장소 검색 객체를 생성합니다
-		var ps = new kakao.maps.services.Places();
+		var ps;
 
 		// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
-		var infowindow = new kakao.maps.InfoWindow({
-			zIndex : 1
-		});
+		var infowindow;
 
+		function mapOpen(){
+			console.log("맵");
+			mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+			mapOption = {
+				center : new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+				level : 3
+			// 지도의 확대 레벨
+			};
+
+			// 지도를 생성합니다    
+			map = new kakao.maps.Map(mapContainer, mapOption);
+
+			// 장소 검색 객체를 생성합니다
+			ps = new kakao.maps.services.Places();
+
+			// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
+			infowindow = new kakao.maps.InfoWindow({
+				zIndex : 1
+			});
+		}
+		
+		
 		// 키워드로 장소 검색
 		searchPlaces();
 
 		// 키워드 검색 요청 함수
 		function searchPlaces() {
-			console.log("검색!!! "+keyword);
+			console.log(keyword+"를 검색!!!");
 			var keyword = document.getElementById('keyword').value;
 
 			if (!keyword.replace(/^\s+|\s+$/g, '')) {
@@ -181,7 +196,12 @@
 							function() {
 								infowindow.close();
 							});
-
+					
+					kakao.maps.event.addListener(marker, 'click',
+							function() {
+								console.log(marker);
+							});
+					
 					itemEl.onmouseover = function() {
 						displayInfowindow(marker, title);
 					};
@@ -306,7 +326,7 @@
 			infowindow.setContent(content);
 			infowindow.open(map, marker);
 		}
-
+		
 		// 검색결과 목록의 자식 Element를 제거하는 함수입니다
 		function removeAllChildNods(el) {
 			while (el.hasChildNodes()) {
