@@ -20,6 +20,9 @@ create table posts(
     CONSTRAINT user_num foreign key(user_num) references users (num)
 );
 
+--DB 컬럼 추가 (유저 탈퇴, status)
+ALTER TABLE Users ADD status number default 1;
+
 --조회수 카운트
 ALTER TABLE posts add  content_cnt number default 0;
 

@@ -54,5 +54,27 @@ private static PostsDAO instance = new PostsDAO();
 		
 		return post;
 	}
+	
+	//포스트좋아요
+	public int likeUp(int posts_num) {
+        int likeup=0;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+           conn=getConnection();
+           pstmt = conn.prepareStatement("update posts set post_like_cnt = post_like_cnt + 1 where num = ?");
+            pstmt.setInt(1, posts_num);
+            likeup = pstmt.executeUpdate();
+            
+            PostsDTO dto = new PostsDTO();
+            dto.setPost_like_cnt(likeup);
+            
+        }catch(Exception e) {
+           e.printStackTrace();
+        }finally {
+           close(rs, pstmt, conn);
+        }return likeup;
+     }
 
 }
