@@ -36,3 +36,16 @@
 #pagination {margin:10px auto;text-align: center;}
 #pagination a {display:inline-block;margin-right:10px;}
 #pagination .on {font-weight: bold; cursor: default;color:#777;}
+
+/********************/
+#selectedMap{
+	padding: 5px;
+	border: solid 1px #dddd;
+	border-radius: 10px;
+}
+.noShow{
+	display : none !important;
+}
+#imgBox img{
+	width: 500px;
+}

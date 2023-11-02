@@ -41,6 +41,7 @@
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
+						<h4><b>지도에서 선택하기</b></h4>
 						<%--지도검색--%>
 						<div class="modal-search">
 							<div class="map_wrap">
@@ -60,20 +61,29 @@
 									<div id="pagination"></div>
 								</div>
 							</div>
+							<%-- 지도선택시 인포박스 --%>
+							<div id="selectedMap" class="noShow"></div>
 
-							<%--이미지저장--%>
+							
 							<form id="img-add">
-								<!-- input 값 받아오려고 추가(희원) -->
-								<label for="img">사진 추가</label>
-								<input type="file" id="img" class="form-control" name="img">
-								<textarea class="form-control" rows="10" cols="40" name="content" placeholder="장소에 대해 설명해주세요!"></textarea>
+								<%--이미지저장--%>
+								<h4><label for="img"><b>사진 추가</b></label></h4>
+								<input type="file" id="img" name="img" class="form-control" accept="image/*" onchange="uploadImg(event);" required multiple>
+								<div class="d-flex justify-content-center" >
+									<div id="imgBox" class=""></div>
+								</div>
+								<!-- 장소설명 -->
+								<div>
+									<h4><b>장소 설명</b></h4>
+									<textarea class="form-control" rows="10" cols="40" name="content" placeholder="장소에 대해 설명해주세요!"></textarea>
+								</div>
 							</form>
 						</div>
 							
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-						<button type="button" class="btn btn-primary">추가하기</button>
+						<button type="button" class="btn btn-primary" onclick="addPlace()">추가하기</button>
 					</div>
 				</div>
 			</div>
@@ -228,7 +238,7 @@
 			var el = document.createElement('li'), itemStr = '<span class="markerbg marker_'
 					+ (index + 1)
 					+ '"></span>'
-					+ '<div class="info" data-id="'+places.id+'">'
+					+ '<div class="info" data-id="'+places.id+'" data-x="'+places.x+'" data-y="'+places.y+'">'
 					+ '   <h5>'
 					+ places.place_name + '</h5>';
 
@@ -251,12 +261,63 @@
 
 		// 검색결과 목록을 클릭했을 때 호출되는 함수입니다
 		$(document).on('click', '.info', function(e) {
-			console.log(e.currentTarget.dataset.id);
-			console.log(e.currentTarget.children[0].innerText);
-			console.log(e.currentTarget.children[1].textContent);
-
 			// console.log("클릭 : " + e.target.firstChild.nodeValue);
+			//클릭한 값 추출 및 저장
+			const id = e.currentTarget.dataset.id;
+			const x = e.currentTarget.dataset.x;
+			const y = e.currentTarget.dataset.y;
+			const place_name = e.currentTarget.children[0].innerText;
+			const address_name = e.currentTarget.children[1].textContent;
+
+			console.log("id:"+id+", 좌표:"+x+","+y+", 장소:"+place_name+", 주소:"+address_name)
+			
+			//지도 닫기
+			//$('#map').hide();
+			$('.map_wrap').addClass('noShow');
+			$('#menu_wrap').addClass('noShow');
+			//뷰페이지에 선택장소 이름 띄워주기
+			$('#selectedMap').empty();
+			var selectM = '<h5><b>'+place_name+'</b></h5>'
+							+'<span>'+address_name+'</span><hr>'
+							+'<div class="d-flex justify-content-end"><button type="button" class="btn btn-secondary" id="reMap" onclick="reMap()">다시 선택하기</button></div>';
+			$("#selectedMap").append(selectM);
+			$('#selectedMap').removeClass('noShow');
 		});
+		
+		//이미지 파일 업로드시
+		//썸네일 보여주기
+    	function uploadImg(event) {
+	        var reader = new FileReader();
+	
+	        reader.onload = function(event) {
+	          var img = document.createElement("img");
+	          img.setAttribute("src", event.target.result);
+	          document.querySelector("div#imgBox").appendChild(img);
+	        };
+	
+	        reader.readAsDataURL(event.target.files[0]);
+	      }
+
+				
+		
+		//추가하기버튼 클릭시
+		function addPlace(){
+			
+		}
+		
+			//쿠키에 정보저장
+		
+		
+		
+		//다시선택하기 버튼 클릭시
+		function reMap(){
+			console.log("지도다시선택");
+			//info창 삭제
+			$('#selectedMap').addClass('noShow');
+			//지도 열기
+			$('.map_wrap').removeClass('noShow');
+			$('#menu_wrap').removeClass('noShow');
+		};
 
 		// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 		function addMarker(position, idx, title) {

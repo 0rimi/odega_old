@@ -25,10 +25,12 @@ ALTER TABLE Users ADD status number default 1;
 
 --조회수 카운트
 ALTER TABLE posts add  content_cnt number default 0;
-
-
 --DB글 삭제
 ALTER TABLE posts add  posts_views number default 0;
+--관리자 추천권한 status : admin_like 기본값0, admin_like 값이 1이면 관리자 추천글
+ALTER TABLE posts ADD admin_like number default 0;
+--관리자 추천한 시간 :update_reg = admin_liker값이 1로 변경된시간, update_reg시간으로부터 7일이내의 값을 검색시 관리자 추천글  
+ALTER TABLE posts ADD update_reg date null;
 
 
 
