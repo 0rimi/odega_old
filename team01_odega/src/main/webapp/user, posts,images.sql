@@ -10,6 +10,24 @@ create table users(
 );
 
 --ALTER TABLE Users ADD user_name VARCHAR2(100);
+alter table users add phone varchar(20);
+
+update users set phone=01049496814 WHERE num=1 ;
+update users set phone=01044356673 WHERE num=2 ;
+update users set phone=01023454534 WHERE num=3 ;
+update users set phone=01034543454 WHERE num=4 ;
+update users set phone=01044142343 WHERE num=5 ;
+update users set phone=01066375814 WHERE num=6 ;
+update users set phone=null WHERE num=7 ;
+update users set phone=01022225555 WHERE num=8 ;
+update users set phone=01012345678 WHERE num=9 ;
+update users set phone=01098765433 WHERE num=10 ;
+update users set phone=0101104222 WHERE num=11 ;
+update users set phone=01033334444 WHERE num=12 ;
+update users set phone=01011332233 WHERE num=13 ;
+update users set phone=01099998888 WHERE num=14 ;
+update users set phone=01066778899 WHERE num=15 ;
+
 
 create table posts(
     num number primary key,
