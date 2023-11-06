@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- style -->
+<link href="../../resources/static/css/mapSearch.css" rel="stylesheet">
 
 <div class="modal modal-lg fade" id="modal_addPlace" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -50,7 +52,7 @@
 							<h4>
 								<b>장소 설명</b>
 							</h4>
-							<textarea class="form-control" rows="10" cols="40" name="content" placeholder="장소에 대해 설명해주세요!"></textarea>
+							<textarea class="form-control" rows="10" cols="40" id="description" placeholder="장소에 대해 설명해주세요!"></textarea>
 						</div>
 					</form>
 				</div>
@@ -82,7 +84,7 @@
 	var infowindow;
 
 	function mapOpen(){
-		console.log("맵");
+		//console.log("맵");
 		mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		mapOption = {
 			center : new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
@@ -244,7 +246,14 @@
 		const place_name = e.currentTarget.children[0].innerText;
 		const address_name = e.currentTarget.children[1].textContent;
 
-		console.log("id:"+id+", 좌표:"+x+","+y+", 장소:"+place_name+", 주소:"+address_name)
+		//console.log("id:"+id+", 좌표:"+x+","+y+", 장소:"+place_name+", 주소:"+address_name);
+		
+		//전역변수선언
+		place_id = id;
+		place_place_name = place_name;
+		place_address_name=address_name;
+		place_x = x;
+		place_y = y;
 		
 		//지도 닫기
 		//$('#map').hide();
@@ -265,25 +274,69 @@
         var reader = new FileReader();
 
         reader.onload = function(event) {
-          var img = document.createElement("img");
-          img.setAttribute("src", event.target.result);
-          document.querySelector("div#imgBox").appendChild(img);
+        	if(document.getElementById('imgBox').children != null){
+        		//console.log('기존 이미지 삭제');
+        		$('#imgBox').empty();
+        	} 
+          	var img = document.createElement("img");
+          	img.setAttribute("src", event.target.result);
+          	document.querySelector("div#imgBox").appendChild(img);
         };
 
         reader.readAsDataURL(event.target.files[0]);
       }
 	//파일 업로드
+	/*
 	const fileInput = document.getElementById("img");
 	const handleFiles = () => {
 		const selectedFile = fileInput.files[0];	//여러파일인경우 [...fileInput.files];
 		console.log(selectedFile);
 	};
 	fileInput.addEventListener("change", handleFiles);	//파일(첨부)버튼에 addEventListener
-		
+	*/
+	
+	
+	//e.target.files[0]
+	const fileInput = document.getElementById("img"); //file input btn
+	
+	const fileEvent = (e) => {
+	  	const reader = new FileReader();
+	  	reader.onload = () => {
+	    console.log('파일 업로드 성공');
+	  };
+	  reader.readAsText(fileInput.files[0]);	//파일이하나이므로 첫번째 요소만 read
+	  uploadFile = fileInput.files[0];
+	  //console.log(fileInput.files[0]);
+	}
+	
+	fileInput.addEventListener('change', fileEvent);//파일(첨부)버튼에 addEventListener
+	
+	//formData
+	const upload = () => {
+	    let formData = new FormData();
+	    formData.append('uploadFile', e.target.files[0]);
+	}
+	
 	
 	//추가하기버튼 클릭시
 	function addPlace(){
+		//장소정보,이미지파일,설명
+		var place = [place_id,place_x,place_y,place_place_name,place_address_name]; 
+		var file = uploadFile;
+		var des = $('#description').val();
 		
+		var modalPlace = {place,file,des};
+		console.log(modalPlace);
+		
+		var placeList = document.getElementById('placeList');
+		var places = document.createElement("div");
+		places.innerHTML = "<div class='places p-3 d-flex justify-content-between'>"
+			+"<div>"
+			+"<h4 id=''>"+place[3]+"</h4>"
+			+"<div class='des'><small>"+des+"</small></div>"
+			+"</div><div><span class='del-btn'>X</span>"
+			+"</div>";
+		placeList.append(places);
 	}
 	
 	//쿠키에 정보저장

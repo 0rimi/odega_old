@@ -118,7 +118,8 @@
                 </div>
             </div>
             <div class="d-flex justify-content-center mt-5">
-                <div id="mapinfo" class="text-center">
+            	<%if(mapList.size() != 0){%>
+            	<div id="mapinfo" class="text-center">
                     <div class="d-flex justify-content-center">
                         <div id="imgs" class="d-flex justify-content-center">
 							<ul class="list d-flex justify-content-between">
@@ -192,6 +193,27 @@
 						</div>
                     </div>
                 </div>
+                <%}else{%>
+                	<div id="mapinfo" class="text-center">
+	                    <div class="d-flex justify-content-center">
+	                        <div id="imgs" class="d-flex justify-content-center">
+								<ul class="list d-flex justify-content-between">
+				                	<%for(int i=0; i<imgList.size(); i++){%>
+										<li class="flex-fill" id="tab<%=i%>">
+										<a href="tab<%=i%>" class="btn btn-block flex-fill"><%=i+1%></a>
+										<div id="tab<%=i%>" class="cont">
+											<div id="imgBox">
+												<img width="700px" src="../../resources/img/<%=imgList.get(i).getImg_url() %>" alt="">
+											</div>
+										</div>
+									</li>
+									<%}%>
+								</ul>
+							</div>
+						</div>
+					</div>
+                <%}%>
+                <%-- /mapinfo --%>
             </div>
         </div>
         <!--/post-->

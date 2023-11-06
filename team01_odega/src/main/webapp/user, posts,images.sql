@@ -114,6 +114,8 @@ insert into images values (images_seq.nextval, 'cafe18.jpg', 3, 2);
 insert into images values (images_seq.nextval, 'cafe19.jpg', 4, 2);
 insert into images values (images_seq.nextval, 'cafe20.jpg', 5, 2);
 insert into images values (images_seq.nextval, 'cafe21.jpg', 6, 2);
+insert into images values (images_seq.nextval, 'theboyz02.jpg', 21, 1);
+insert into images values (images_seq.nextval, 'dog.jpg', 22, 1);
 
 
 ALTER TABLE posts ADD reg date default sysdate;
@@ -151,3 +153,5 @@ insert into posts values (posts_seq.nextval,'압구정 카페','앞구정에 위
 insert into posts values (posts_seq.nextval,'강남 카페','강남에 위치', 334, 5, sysdate , 0 , 0);
 insert into posts values (posts_seq.nextval,'서초 카페','서초에 위치', 217, 5, sysdate , 0 , 0);
 insert into posts values (posts_seq.nextval,'대학로 카페','대학로에 위치', 197, 5, sysdate , 0 , 0);
+insert into posts values (posts_seq.nextval,'가나다라','영등포에 위치', 60, 2, sysdate , 0 , 0, 0, null);
+insert into posts values (posts_seq.nextval,'강아지 라떼','중구에 위치', 5, 3, sysdate , 0 , 0, 0, null);
