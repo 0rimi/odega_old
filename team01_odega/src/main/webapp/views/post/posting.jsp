@@ -16,45 +16,63 @@
 
 </head>
 <body>
-	<form method="get" action="#">
-		<!-- 제목&본문 -->
-		<div class="form-floating mb-3">
-			<input type="text" class="form-control" id="title" placeholder="제목을 입력하세요" name="title">
-			<label for="title">제목</label>
-		</div>
-														<!-- 임시유저넘버:3 -->
-		<input class="form-control" type="hidden" name="user_num" value="3">
-		
-		<!-- 태그추가 -->
-		<div class="m-2 d-flex align-items-center">
-			<div class="col-1">
-				<label for="tag"></label><span style="width: 100px;">태그 입력</span>
-			</div>
-			<div class="col-2">
-				<input class=" form-control" type="text" id="tag" size="20" placeholder="스페이스 혹은 엔터 입력" />
-			</div>
-		</div>
-		<ul id="tag-list"></ul>
-
-
-		<textarea class="form-control" rows="10" cols="40" name="content" placeholder="본문을 입력해주세요!"></textarea>
-		<!-- /제목&본문 -->
-		
-		
-		<!-- 추가한 장소 리스트 -->
-		<div id="placeList">
-			
-		</div>
-		
-		
-		<!-- 장소 추가하기 -->
-		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_addPlace" onclick="mapOpen()">장소 추가하기</button>		
-	</form>
+	<%-- header --%>
+	<%@ include file="../user/top.jsp"%>
+	<%-- /header --%>
 	
-	<!-- Modal -->
+	<%
+		//로그인 한 사람인지 확인
+   		String sid = (String)session.getAttribute("sid");
+   		if(sid == null){
+	%>
+		<script>
+        	alert("로그인 후 사용 가능합니다.");
+         	window.location="/odega/views/user/loginform.jsp";
+      	</script>
+	<%}
+   		//로그인한 사용자 정보 받아오기
+   		//int sUserNum = Integer.parseInt(session.getAttribute("sUserNum"));
+	%>
+	
+	<section>
+		<form method="get" action="#">
+			<!-- 제목&본문 -->
+			<div class="form-floating mb-3">
+				<input type="text" class="form-control" id="title" placeholder="제목을 입력하세요" name="title">
+				<label for="title">제목</label>
+			</div>
+															<!-- 임시유저넘버:3 -->
+			<input class="form-control" type="hidden" name="user_num" value="<%--=userNum--%>">
+			
+			<!-- 태그추가 -->
+			<div class="m-2 d-flex align-items-center">
+				<div class="col-1">
+					<label for="tag"></label><span style="width: 100px;">태그 입력</span>
+				</div>
+				<div class="col-2">
+					<input class=" form-control" type="text" id="tag" size="20" placeholder="스페이스 혹은 엔터 입력" />
+				</div>
+			</div>
+			<ul id="tag-list"></ul>
+	
+	
+			<textarea class="form-control" rows="10" cols="40" name="content" placeholder="본문을 입력해주세요!"></textarea>
+			<!-- /제목&본문 -->
+			
+			
+			<!-- 추가한 장소 리스트 -->
+			<div id="placeList">
+				
+			</div>
+			
+			
+			<!-- 장소 추가하기 -->
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_addPlace" onclick="mapOpen()">장소 추가하기</button>		
+		</form>
+		
+		<!-- Modal -->
 		<jsp:include page="modal.jsp" />
-
-
+	</section>
 </body>
 <script>
 $(document).ready(function () {
