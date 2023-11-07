@@ -3,6 +3,8 @@
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="odega.bean.mypage.myPageDTO"%>
 <%@ page import="odega.bean.mypage.myPageDAO"%>
+<%@ page import="odega.bean.mypage.MainDTO"%>
+<%@ page import="odega.bean.mypage.MainDAO"%>
 
 <head>
 <meta charset="UTF-8">
@@ -155,6 +157,76 @@
 %>
 </div>
 <h1></h1>
+
+	<!-- 조회수 높은 순 정렬 -->	
+				<div class="container">
+				<p style="padding-left: 20px;" class="display-6">인기글</p>
+				
+					<div class="row" align="center">
+				<%
+					MainDAO mdao = new MainDAO();
+					
+					ArrayList<MainDTO> cList = mdao.mostClickList();
+					for (MainDTO mdto : cList){
+					%>
+						<div class="col-md-4">
+							<a href="../views/post/postView.jsp?num=<%= mdto.getNum()%>"> <img src="/odega/resources/img/<%=mdto.getImg_url()%>" style="width: 200px; height: 170px;" border="2;" />
+							</a> <a href="../views/post/postView.jsp?num=<%= mdto.getNum()%>"> <b><p style="font-size: 18px;">
+										제목 :
+										<%=mdto.getTitle()%></p></b>
+							</a>
+							<p style="font-size: 15px;">
+								작성자 :
+								<%=mdto.getNickname()%></p>
+							<p style="font-size: 15px;">
+								조회수 :
+								<%=mdto.getPosts_views() %></p>
+							<p style="font-size: 15px;">
+								작성일 :
+								<%=mdto.getReg()%></p>
+							<h5>
+								<a href="../views/recomm/like_cnt_up.jsp?num=<%=mdto.getNum()%>&page=main"><img src="/odega/resources/img/good.PNG" style="width: 30px"></a>
+								<%=mdto.getPost_like_cnt()%></h5>
+								</div>
+					<%}%>
+					</div>
+					<hr />
+				</div>
+				<h1></h1>
+				
+			<!-- posts.reg 기준 현재 날짜에서 -6~-1일 중 좋아요 수가 높은 순 정렬 -->
+			<div class="container">
+			<p style="padding-left: 20px;" class="display-6">주간 랭킹</p>
+			
+					<div class="row" align="center">
+				<%
+					ArrayList<MainDTO> wList = mdao.weeklyList();
+					for (MainDTO mdto : wList){
+					%>
+						<div class="col-md-4">
+							<a href="../views/post/postView.jsp?num=<%= mdto.getNum()%>"> <img src="/odega/resources/img/<%=mdto.getImg_url()%>" style="width: 200px; height: 170px;" border="2;" />
+							</a> <a href="../views/post/postView.jsp?num=<%= mdto.getNum()%>"> <b><p style="font-size: 18px;">
+										제목 :
+										<%=mdto.getTitle()%></p></b>
+							</a>
+							<p style="font-size: 15px;">
+								작성자 :
+								<%=mdto.getNickname()%></p>
+							<p style="font-size: 15px;">
+								조회수 :
+								<%=mdto.getPosts_views() %></p>
+							<p style="font-size: 15px;">
+								작성일 :
+								<%=mdto.getReg()%></p>
+							<h5>
+								<a href="../views/recomm/like_cnt_up.jsp?num=<%=mdto.getNum()%>&page=main"><img src="/odega/resources/img/good.PNG" style="width: 30px"></a>
+								<%=mdto.getPost_like_cnt()%></h5>
+								</div>
+					<%}%>
+					</div>
+					<hr />
+				</div>
+				<h1></h1>
 <br />
 <h1></h1>
 <br />
