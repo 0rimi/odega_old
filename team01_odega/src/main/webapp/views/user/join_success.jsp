@@ -8,8 +8,8 @@
 </head>
 <body>
 
-   <h2>회원가입에 성공했습니다</h2>
-   <a href="loginform.jsp">로그인하기</a>
+	<h2>회원가입에 성공했습니다</h2>
+	<a href="loginform.jsp">로그인하기</a>
 
 </body>
 </html>

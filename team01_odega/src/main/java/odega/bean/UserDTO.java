@@ -10,7 +10,8 @@ public class UserDTO {
    private int user_like_cnt;
    private String reg;
    private String user_name;
-
+   private String phone;
+   
    public UserDTO() {
       this.num = num;
       this.user_id = user_id;
@@ -20,6 +21,7 @@ public class UserDTO {
       this.user_like_cnt = user_like_cnt;
       this.reg = reg;
       this.user_name = user_name;
+      this.phone = phone;
    }
 
    
@@ -72,12 +74,18 @@ public String getUser_name() {
 public void setUser_name(String user_name) {
    this.user_name = user_name;
 }
+public String getPhone() {
+	return phone;
+}
+public void setPhone(String phone) {
+	this.phone = phone;
+}
 
 
 @Override
 public String toString() {
  return "UserDTO [num=" + num + ", user_id=" + user_id + ", user_pw=" + user_pw +  ", nickname="+ nickname+", birth=" + birth
-   + ", user_like_cnt=" + user_like_cnt + ", reg=" + reg + ", user_name=" + user_name + "]";
+   + ", user_like_cnt=" + user_like_cnt + ", reg=" + reg + ", user_name=" + user_name + ", phone=" + phone  + "]";
 }
 
 } 

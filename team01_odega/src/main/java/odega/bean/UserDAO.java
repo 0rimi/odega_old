@@ -59,71 +59,74 @@ public class UserDAO extends OracleDB{
 		return result;
 	}
    
-   public int join(String user_name, String user_id, String user_pw, String nickname, String birth) {
-      String SQL = "INSERT INTO users VALUES (?,?,?,?,?)";   //총 다섯개의 값 들어가게
-      try {
-         //insert문장의 결과는 0이상의 숫자가 발현되기 떄문에 -1이 아닌경우는 성공적인 회원가입이 이뤄진 것.
-         pstmt=conn.prepareStatement(SQL);
-         pstmt.setString(1, user_name);
-         pstmt.setString(2, user_id);
-         pstmt.setString(3, user_pw);
-         pstmt.setString(4, nickname);
-         pstmt.setString(5, birth);
-         
-         return pstmt.executeUpdate();
-         
-      } catch(Exception e) {
-         e.printStackTrace();   //예외처리
-         
-      }finally {
-          close(rs,pstmt,conn);
-      }
-      return -1;         //데이터베이스 오류를 의미
-   }
-   
-   
-   // ID 찾기
-   public String findId(String user_name, String phone) {
-      String found_id = null;
-      
-      try {
-         String sql = "select user_id from users where user_name=? and phone=? ";
-         pstmt = conn.prepareStatement(sql);
-         pstmt.setString(1, user_name);
-         pstmt.setString(2, phone);
-         
-         rs = pstmt.executeQuery();
-         
-         if(rs.next()) {
-            found_id = rs.getString("user_id");
-         }
-            
-      } catch (Exception e) {
-         e.printStackTrace();
-      }
-      return found_id;
-   }
+	public int join(String user_name, String user_id, String user_pw, String nickname, String birth, String phone) {
+		String SQL = "INSERT INTO users VALUES (users_seq.nextval,?,?,?,?,0,sysdate,?,1,?)";   //총 다섯개의 값 들어가게
+		try {
+			//insert문장의 결과는 0이상의 숫자가 발현되기 떄문에 -1이 아닌경우는 성공적인 회원가입이 이뤄진 것.
+			conn = getConnection();
+			pstmt=conn.prepareStatement(SQL);
+			pstmt.setString(1, user_id);
+			pstmt.setString(2, user_pw);
+			pstmt.setString(3, nickname);
+			pstmt.setString(4, birth);
+			pstmt.setString(5, user_name);
+			pstmt.setString(6, phone);
+			
+			return pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			
+			e.printStackTrace();	//예외처리
+			
+		}finally {
+			 close(rs,pstmt,conn);
+		}
+		return -1;			//데이터베이스 오류를 의미
+	}
+	
+	// ID 찾기
+	public String findId(String user_name, String phone) {
+		String user_id = null;
+		
+		try {
+			conn = getConnection();
+			String sql = "select user_id from users where user_name=? and phone=? ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, user_name);
+			pstmt.setString(2, phone);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				user_id = rs.getString("user_id");
+			}
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return user_id;
+	}
 
 
-   // PW 찾기
-   public String findPw(String user_id, String phone) {
-      String found_pw = null;
-   
-   try {
-      String sql = "select user_pw from users where user_id=? and phone=? ";
-      pstmt = conn.prepareStatement(sql);
-      pstmt.setString(1, user_id);
-      pstmt.setString(2, phone);
-      
-      rs = pstmt.executeQuery();
-      
-      if(rs.next()) {
-         found_pw = rs.getString("user_pw");
-      }
-         
-   } catch (Exception e) {
-      e.printStackTrace();
-   }
-   return found_pw;
+	// PW 찾기
+	public String findPw(String user_id, String phone) {
+		String found_pw = null;
+	
+	try {
+		String sql = "select user_pw from users where user_id=? and phone=? ";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, user_id);
+		pstmt.setString(2, phone);
+		
+		rs = pstmt.executeQuery();
+		
+		if(rs.next()) {
+			found_pw = rs.getString("user_pw");
+		}
+			
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	return found_pw;
 }
 }

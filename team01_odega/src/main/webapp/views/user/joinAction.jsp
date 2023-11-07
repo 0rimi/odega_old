@@ -1,58 +1,41 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
-<%@page import="java.sql.DriverManager"%>
-<%@page import="java.sql.PreparedStatement"%>
-<%@page import="java.sql.Connection"%>
-
-<%@ page import="odega.bean.UserDAO"%>
-<!-- userdao의클래스를 가져옴 -->
+<%@ page import="odega.bean.UserDAO"%> <!-- userdao의클래스를 가져옴 -->
 <%@ page import="java.io.PrintWriter"%>
 
-<%
-request.setCharacterEncoding("utf-8");
-%>
+<%request.setCharacterEncoding("utf-8"); %>
 <jsp:useBean id="user" class="odega.bean.UserDTO" scope="page" />
-<jsp:setProperty name="user" property="user_id" />
-<jsp:setProperty name="user" property="user_pw" />
-<jsp:setProperty name="user" property="user_name" />
-<jsp:setProperty name="user" property="nickname" />
-<jsp:setProperty name="user" property="birth" />
+<jsp:setProperty name="user" property="*" />
 
-<!DOCTYPE html>
-<html>
-<head>
-<title>joinAction</title>
-</head>
-<body>
-	<%
-	//form으로부터 전달받은 값을 DAO로 전송하기 위한 joinAction.jsp
+<%
 
-	UserDAO userDAO = new UserDAO();
 
-	int result = userDAO.join(user.getUser_name(), user.getUser_id(), user.getUser_pw(), user.getNickname(), user.getBirth());
+UserDAO userDAO = new UserDAO(); //데이터 베이스에 접근 가능한 객체생성
 
-	if (result == -1) {
-		PrintWriter script = response.getWriter();
-		script.println("<script>");
-		script.println("alert('데이터베이스 오류입니다.')");
-		script.println("history.back()");
-		script.println("</script>");
+int result = userDAO.join(user.getUser_name(), user.getUser_id(), user.getUser_pw(), user.getNickname(), user.getBirth(), user.getPhone());
 
-	} else {
-		session.setAttribute("name", user.getUser_name()); // 세션 생성 ☆★
-		session.setAttribute("id", user.getUser_id()); // 세션 생성 ☆★
-		session.setAttribute("pw", user.getUser_pw()); // 세션 생성 ☆★
-		session.setAttribute("nickname", user.getNickname()); // 세션 생성 ☆★
-		session.setAttribute("birth", user.getBirth()); // 세션 생성 ☆★
-		PrintWriter script = response.getWriter();
 
-		script.println("<script>");
-		script.println("alert('회원가입 성공')");
-		script.println("location.href = 'loginform.jsp'");
-		script.println("</script>");
-	}
-	%>
-</body>
-
-</html>
+if (user.getUser_name() == null || user.getUser_id() == null || user.getUser_pw() == null 
+|| user.getNickname() == null || user.getBirth() == null || user.getPhone() == null) {
+    PrintWriter script = response.getWriter();
+    script.println("<script>");
+    script.println("alert('입력이 안 된 사항이 있습니다.')");
+    script.println("history.back()"); //뒤로가기
+    script.println("</script>");
+    
+} else if (result == -1) {
+        PrintWriter script = response.getWriter();
+        script.println("<script>");
+        script.println("alert('이미 존재하는 아이디입니다.')");
+        script.println("history.back()");
+        script.println("</script>");
+        
+      System.out.println(result);
+        
+    } else  { // 회원가입이 되었을때 로그인 페이지로 넘어감,-1이 아닌경우 전부 넘어가도록함
+        PrintWriter script = response.getWriter();
+        script.println("<script>");
+        script.println("alert('회원가입이 완료되었습니다.')");
+        script.println("location.href = 'loginform.jsp'"); //로그인된 화면
+        script.println("</script>");
+    }
+%>

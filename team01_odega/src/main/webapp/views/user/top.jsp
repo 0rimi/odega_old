@@ -24,7 +24,7 @@
 
 w:hover {
  text-decoration: none;
- color: red
+ color: pink
 }
 </style>
 </head>
@@ -59,7 +59,7 @@ w:hover {
        <tr>
       
         <td style="width: 550px"></td>
-        <td onClick="myinfomenu()" style="cursor: pointer"><w><%=session.getAttribute("name")%>님</w></td>
+        <td onClick="myinfomenu()" style="cursor: pointer"><w><%=session.getAttribute("user_id")%>님</w></td>
         <td></td>
         <td onClick="location.href='${pageContext.request.contextPath}/views/user/logout.jsp'" style="cursor: pointer"><w>로그아웃</w></td>
         <td></td>
@@ -118,6 +118,10 @@ w:hover {
                 <li style="background-color: white; margin-top:1px"
                  onClick="questionmenu()">Q&A&nbsp;</li>
                </ul></li>
+               <li style="width: 60px">|</li>
+               
+                <li align="left" style="cursor: pointer;"><w> FIND</w>
+               <ul style="font-size: 16px; width: 55px;">
              </ul>
             </div>
            </td>
@@ -135,4 +139,7 @@ w:hover {
     </tr>
    </table>
 </body>
+
+		</footer>
+	
 </html>
