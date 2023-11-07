@@ -44,13 +44,13 @@ w:hover {
        
         <td style="width: 550px"></td>
         
-        <td onClick="location.href='loginform.jsp'" style="cursor: pointer"><w>로그인</w></td>
+        <td onClick="location.href='${pageContext.request.contextPath}/views/user/loginform.jsp'" style="cursor: pointer"><w>로그인</w></td>
         <td>
-        <td onClick="location.href='joinform.jsp'" style="cursor: pointer"><w>회원가입</w></td>
+        <td onClick="location.href='${pageContext.request.contextPath}/views/user/joinform.jsp'" style="cursor: pointer"><w>회원가입</w></td>
         <td>
-        <td onClick="location.href='findId.jsp'" style="cursor: pointer"><w>아이디찾기</w></td>
+        <td onClick="location.href='${pageContext.request.contextPath}/views/user/findId.jsp'" style="cursor: pointer"><w>아이디찾기</w></td>
         <td>
-        <td onClick="location.href='findPw.jsp'" style="cursor: pointer"><w>비밀번호찾기</w></td>
+        <td onClick="location.href='${pageContext.request.contextPath}/views/user/findPw.jsp'" style="cursor: pointer"><w>비밀번호찾기</w></td>
        </tr>
       </table>
 <%} else {%>
@@ -61,7 +61,7 @@ w:hover {
         <td style="width: 550px"></td>
         <td onClick="myinfomenu()" style="cursor: pointer"><w><%=session.getAttribute("name")%>님</w></td>
         <td></td>
-        <td onClick="location.href='logout.jsp'" style="cursor: pointer"><w>로그아웃</w></td>
+        <td onClick="location.href='${pageContext.request.contextPath}/views/user/logout.jsp'" style="cursor: pointer"><w>로그아웃</w></td>
         <td></td>
         <td onClick="myinfomenu()" style="cursor: pointer"><w>회원
          정보 관리</w></td>
@@ -77,7 +77,7 @@ w:hover {
         <td>
          <table width="100%" height="50px" align=center border="0">
           <tr>
-           <td align="center"><a href="../main.jsp"></a></td>
+           <td align="center"><a href="${pageContext.request.contextPath}/views/main.jsp"></a></td>
           </tr>
          </table>
         </td>
