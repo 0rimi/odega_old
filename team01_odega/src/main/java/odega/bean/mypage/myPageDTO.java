@@ -1,7 +1,7 @@
 package odega.bean.mypage;
 
 import java.sql.Timestamp;
-
+ 
 public class myPageDTO {
 
    private int num;

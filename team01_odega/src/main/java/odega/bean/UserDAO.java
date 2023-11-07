@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import odega.OracleDB;
+import odega.bean.mypage.myPageDTO;
 
 
 public class UserDAO extends OracleDB{
@@ -39,6 +40,24 @@ public class UserDAO extends OracleDB{
        return -2;           //데이터베이스 오류를 의미
     }
    
+	//포스팅 작성시 유저 번호 확인 (창완이 작성)
+	public int userNum(String user_id, String user_pw) {
+		int result = 0;
+		try {
+			conn = getConnection();
+			String sql = " select num from users where user_id=? and user_pw=? ";	// id,pw를 사용하여 유저번호 확인
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, user_id);
+			pstmt.setString(2, user_pw);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				result = rs.getInt("num");
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
    
    public int join(String user_name, String user_id, String user_pw, String nickname, String birth) {
       String SQL = "INSERT INTO users VALUES (?,?,?,?,?)";   //총 다섯개의 값 들어가게

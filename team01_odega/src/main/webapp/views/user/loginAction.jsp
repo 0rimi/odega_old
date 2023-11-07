@@ -19,9 +19,11 @@ request.setCharacterEncoding("UTF-8");
 	UserDAO userDAO = new UserDAO();
 
 	int result = userDAO.login(user.getUser_id(), user.getUser_pw());
-
+	
 	if (result == 1) {
-		session.setAttribute("sid", user.getUser_id()); // 세션 생성 ☆★
+		session.setAttribute("sid", user.getUser_id());	// 세션 생성 ☆★
+		int result2 = userDAO.userNum(user.getUser_id(), user.getUser_pw());
+		session.setAttribute("unum", result2);			// 유저번호를 위한 세션 생성 ☆★
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
 		script.println("alert('로그인 성공')");
