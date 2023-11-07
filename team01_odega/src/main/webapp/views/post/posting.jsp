@@ -160,7 +160,7 @@ $(document).ready(function () {
       var index = $(this).attr("idx");
       tag[index] = "";
       $(this).parent().remove();
-      postingData.tags.splice(idx, 1);
+      tags.splice(index, 1);
    });
   
   //장소삭제

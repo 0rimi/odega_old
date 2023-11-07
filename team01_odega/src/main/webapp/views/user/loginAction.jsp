@@ -36,7 +36,7 @@
      			PrintWriter script = response.getWriter();
      			script.println("<script>");
      			script.println("alert('로그인 성공')");
-     			script.println("location.href = 'top.jsp'");
+     			script.println("location.href = '../main.jsp'");
      			script.println("</script>");
      			String user_id = request.getParameter("user_id");
      			session.setAttribute("user_id", user_id); //세션저장
