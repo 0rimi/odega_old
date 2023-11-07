@@ -12,6 +12,8 @@ public class myPageDTO {
    private int user_like_cnt;
    private Timestamp reg;
    private String user_name;
+   private int status; 
+   private int phone;
    
    private int post_num;
    private String post_title;
@@ -32,6 +34,19 @@ public class myPageDTO {
    private String comments_wri;
    private Timestamp comments_reg;
    private int comment_views;
+   
+	public int getPhone() {
+		return phone;
+	}
+	public void setPhone(int phone) {
+		this.phone = phone;
+	}
+   	public int getStatus() {
+   		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
    
    public int getNum() {
       return num;

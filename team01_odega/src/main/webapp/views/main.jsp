@@ -32,15 +32,16 @@
 		<div class="col" align="left">
 			<%@ include file="./user/top.jsp"%>
 			<h2 class="mt-3">
-				<button type="button" class="btn btn-success"">구독중</button>
-				&nbsp&nbsp
-				<button type="button" class="btn btn-success"">포스트 작성</button>
-				&nbsp&nbsp<a href="./mypage/myPage.jsp?sql1=posts_num&sql2=desc"><button type="button" class="btn btn-success">마이페이지</button></a>
 
 				<%
-   String sid = (String)session.getAttribute("sid");
-   if(sid != null){
+   	String sid = (String)session.getAttribute("sid");
+	String unum = (String)session.getAttribute("unum");
+   	if(sid != null){
       %>
+      			<button type="button" class="btn btn-success"">구독중</button>&nbsp&nbsp
+				<a href="../views/post/posting.jsp?unum="><button type="button" class="btn btn-success"">포스트 작성</button></a>
+				&nbsp&nbsp<a href="./mypage/myPage.jsp?sql1=posts_num&sql2=desc"><button type="button" class="btn btn-success">마이페이지</button></a>
+      
 				&nbsp&nbsp
 				<button onclick="window.location='./user/logout.jsp'" type="button" class="btn btn-success">로그아웃</button>
 				<%} else {
