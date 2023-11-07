@@ -51,7 +51,7 @@ request.setCharacterEncoding("UTF-8");
 		script.println("history.back()");
 		script.println("</script>");
 	}
-	%>
+	%> 
 
 </body>
 </html>

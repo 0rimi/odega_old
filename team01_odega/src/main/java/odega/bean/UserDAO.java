@@ -26,7 +26,7 @@ public class UserDAO extends OracleDB{
                                  //패스워드 일치한다면 실행
              if(rs.getString(1).equals(user_pw)) {
                 return 1;  //로그인성공
-                
+                 
              }else
                 return 0;  //비번 불일치
              
