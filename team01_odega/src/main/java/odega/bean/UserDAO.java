@@ -83,14 +83,13 @@ public class UserDAO extends OracleDB{
 		}
 		return -1;			//데이터베이스 오류를 의미
 	}
-	
+
 	// ID 찾기
 	public String findId(String user_name, String phone) {
-		String user_id = null;
-		
+		String id = null;
+		String sql = "select user_id from users where user_name=? and phone=? ";
 		try {
 			conn = getConnection();
-			String sql = "select user_id from users where user_name=? and phone=? ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user_name);
 			pstmt.setString(2, phone);
@@ -98,13 +97,13 @@ public class UserDAO extends OracleDB{
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				user_id = rs.getString("user_id");
+				id = rs.getString("user_id");
 			}
 				
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return user_id;
+		return id;
 	}
 
 
