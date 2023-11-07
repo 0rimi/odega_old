@@ -16,6 +16,7 @@ private static PostsDAO instance = new PostsDAO();
 	public PostsDAO() {}
 	
 	//Post num주고 하나 가져오기
+	//조회수 증가 기능 추가
 	public PostsDTO getPost(int num) throws Exception {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -25,6 +26,11 @@ private static PostsDAO instance = new PostsDAO();
 		
 		try {
 			conn = getConnection();
+			pstmt = conn.prepareStatement("update posts set posts_views =posts_views+1 where num = ? ");
+			pstmt.setInt(1, num);
+			pstmt.executeUpdate();
+			
+			
 			pstmt = conn.prepareStatement(
 			" select p.*, u.nickname "
 			+ "			from posts p "

@@ -17,7 +17,7 @@
 <body>
 	<%
    request.setCharacterEncoding("UTF-8");
-   String user_id = (String)session.getAttribute("user_id");
+   String user_id = (String)session.getAttribute("sid");
    
    
    UserLikeDAO likedao = new UserLikeDAO();
@@ -56,7 +56,7 @@
    %>
 						<tr class="odd">
 							<td class="sorting_1"><%=dto.getNum()%></td>
-							<td><a href="#"><%=dto.getTitle()%></a></td>
+							<td><a href="/odega/views/post/postView.jsp?num=<%= dto.getNum()%>"><%=dto.getTitle()%></a></td>
 							<td><%=dto.getNickname()%></td>
 							<td><%=dto.getContent()%></td>
 							<td><%=dto.getReg()%></td>

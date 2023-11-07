@@ -3,6 +3,8 @@
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="odega.bean.mypage.myPageDTO"%>
 <%@ page import="odega.bean.mypage.myPageDAO"%>
+<%@ page import="odega.bean.mypage.MainDTO"%>
+<%@ page import="odega.bean.mypage.MainDAO"%>
 
 <head>
 <meta charset="UTF-8">
@@ -14,14 +16,14 @@
 
 
 <body>
- 
+
 	<%
    int pageSize = 6;   // 한 페이지에 보여줄 글의 개수
    
    String pageNum = request.getParameter("pageNum");
    if(pageNum == null){
       pageNum = "1";
-   } 
+   }
    
    int currentPage = Integer.parseInt(pageNum);
    int start = (currentPage - 1) * pageSize + 1;
@@ -32,16 +34,15 @@
 		<div class="col" align="left">
 			<%@ include file="./user/top.jsp"%>
 			<h2 class="mt-3">
+				<button type="button" class="btn btn-success"">구독중</button>
+				&nbsp&nbsp
+				<button type="button" class="btn btn-success"">포스트 작성</button>
+				&nbsp&nbsp<a href="./mypage/myPage.jsp?sql1=posts_num&sql2=desc"><button type="button" class="btn btn-success">마이페이지</button></a>
 
 				<%
-   	String sid = (String)session.getAttribute("sid");
-   	if(sid != null){
-   		int unum = (Integer)session.getAttribute("unum");
+   String sid = (String)session.getAttribute("sid");
+   if(sid != null){
       %>
-      			<button type="button" class="btn btn-success"">구독중</button>&nbsp&nbsp
-				<a href="../views/post/posting.jsp?"><button type="button" class="btn btn-success"">포스트 작성</button></a>
-				&nbsp&nbsp<a href="./mypage/myPage.jsp?sql1=posts_num&sql2=desc"><button type="button" class="btn btn-success">마이페이지</button></a>
-      
 				&nbsp&nbsp
 				<button onclick="window.location='./user/logout.jsp'" type="button" class="btn btn-success">로그아웃</button>
 				<%} else {
@@ -91,8 +92,10 @@
       msql1 = request.getParameter("msql1");
       msql2 = request.getParameter("msql2");   
    }
-   %>
+   %>	<!-- 최신순 정렬 -->
 				<div class="container">
+				<p style="padding-left: 20px;" class="display-6">최신글</p>
+				<br />
 					<div class="row" align="center">
 						<%
    myPageDAO dao = new myPageDAO();
@@ -114,7 +117,7 @@
 								작성일 :
 								<%=dto.getPost_reg()%></p>
 							<h5>
-								<img src="/odega/resources/img/good.PNG" style="width: 30px">
+								<a href="../views/recomm/like_cnt_up.jsp?num=<%=dto.getPost_num()%>&page=main"><img src="/odega/resources/img/good.PNG" style="width: 30px"></a>
 								<%=dto.getPost_like_cnt()%></h5>
 						</div>
 						<% } %>
@@ -122,38 +125,77 @@
 					<hr />
 				</div>
 				<h1></h1>
-				<br />
-
-				<div align="center">
-					<%
-   int count = dao.mcount();
-   if(count > 0){
-      int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
-      int startPage = (int)(currentPage/10)*10+1;
-      int pageBlock = 10;
-      int endPage = startPage + pageBlock - 1;
-      if(endPage > pageCount){
-         endPage = pageCount;
-      }
-      
-      
-      if(startPage > 10){
-      %>
-					<b><a href="main.jsp?msql1=<%=msql1%>&msql2=<%=msql2%>&pageNum=<%=startPage-10%>">[이전]</a></b>
-					<%   }
-      
-      for(int i=startPage; i<=endPage; i++){
-      %>
-					<a href="main.jsp?msql1=<%=msql1%>&msql2=<%=msql2%>&pageNum=<%=i%>"><b>[<%=i%>]
-					</b></a>
-
-					<%} if(endPage < pageCount){
-   %>
-					<b><a href="main.jsp?msql1=<%=msql1%>&msql2=<%=msql2%>&pageNum=<%=startPage+10%>">[다음]</a></b>
-					<%   }   
-   }
-%>
+				
+			<!-- 조회수 높은 순 정렬 -->	
+				<div class="container">
+				<p style="padding-left: 20px;" class="display-6">인기글</p>
+				
+					<div class="row" align="center">
+				<%
+					MainDAO mdao = new MainDAO();
+					
+					ArrayList<MainDTO> cList = mdao.mostClickList();
+					for (MainDTO mdto : cList){
+					%>
+						<div class="col-md-4">
+							<a href="../views/post/postView.jsp?num=<%= mdto.getNum()%>"> <img src="/odega/resources/img/<%=mdto.getImg_url()%>" style="width: 200px; height: 170px;" border="2;" />
+							</a> <a href="../views/post/postView.jsp?num=<%= mdto.getNum()%>"> <b><p style="font-size: 18px;">
+										제목 :
+										<%=mdto.getTitle()%></p></b>
+							</a>
+							<p style="font-size: 15px;">
+								작성자 :
+								<%=mdto.getNickname()%></p>
+							<p style="font-size: 15px;">
+								조회수 :
+								<%=mdto.getPosts_views() %></p>
+							<p style="font-size: 15px;">
+								작성일 :
+								<%=mdto.getReg()%></p>
+							<h5>
+								<a href="../views/recomm/like_cnt_up.jsp?num=<%=mdto.getNum()%>&page=main"><img src="/odega/resources/img/good.PNG" style="width: 30px"></a>
+								<%=mdto.getPost_like_cnt()%></h5>
+								</div>
+					<%}%>
+					</div>
+					<hr />
 				</div>
+				<h1></h1>
+				
+			<!-- posts.reg 기준 현재 날짜에서 -6~-1일 중 좋아요 수가 높은 순 정렬 -->
+			<div class="container">
+			<p style="padding-left: 20px;" class="display-6">주간 랭킹</p>
+			
+					<div class="row" align="center">
+				<%
+					ArrayList<MainDTO> wList = mdao.weeklyList();
+					for (MainDTO mdto : wList){
+					%>
+						<div class="col-md-4">
+							<a href="../views/post/postView.jsp?num=<%= mdto.getNum()%>"> <img src="/odega/resources/img/<%=mdto.getImg_url()%>" style="width: 200px; height: 170px;" border="2;" />
+							</a> <a href="../views/post/postView.jsp?num=<%= mdto.getNum()%>"> <b><p style="font-size: 18px;">
+										제목 :
+										<%=mdto.getTitle()%></p></b>
+							</a>
+							<p style="font-size: 15px;">
+								작성자 :
+								<%=mdto.getNickname()%></p>
+							<p style="font-size: 15px;">
+								조회수 :
+								<%=mdto.getPosts_views() %></p>
+							<p style="font-size: 15px;">
+								작성일 :
+								<%=mdto.getReg()%></p>
+							<h5>
+								<a href="../views/recomm/like_cnt_up.jsp?num=<%=mdto.getNum()%>&page=main"><img src="/odega/resources/img/good.PNG" style="width: 30px"></a>
+								<%=mdto.getPost_like_cnt()%></h5>
+								</div>
+					<%}%>
+					</div>
+					<hr />
+				</div>
+				<h1></h1>
+				
 				<h1></h1>
 				<br />
 				<h1></h1>
