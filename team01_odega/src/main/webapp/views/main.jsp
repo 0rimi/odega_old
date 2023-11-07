@@ -21,7 +21,7 @@
    String pageNum = request.getParameter("pageNum");
    if(pageNum == null){
       pageNum = "1";
-   }
+   } 
    
    int currentPage = Integer.parseInt(pageNum);
    int start = (currentPage - 1) * pageSize + 1;
