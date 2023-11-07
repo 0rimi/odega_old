@@ -12,19 +12,7 @@ public class UserDTO {
    private String user_name;
    private String phone;
    
-   public UserDTO() {
-      this.num = num;
-      this.user_id = user_id;
-      this.user_pw = user_pw;
-      this.nickname = nickname;
-      this.birth = birth;
-      this.user_like_cnt = user_like_cnt;
-      this.reg = reg;
-      this.user_name = user_name;
-      this.phone = phone;
-   }
 
-   
 public int getNum() {
    return num;
 }

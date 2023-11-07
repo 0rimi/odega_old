@@ -8,16 +8,15 @@
     
 
 <meta charset="UTF-8">
-<title>findIdAction</title>
-
+<title>findPwAction</title>
 <%
 
  UserDAO userDAO = new UserDAO();
  
-String id = userDAO.findId(user.getUser_name(), user.getPhone()); //아이디를 디비에서 가져옴..실패시 널
-System.out.println(id);
+String pw = userDAO.findPw(user.getUser_name(), user.getUser_id(), user.getPhone()); //비번을 디비에서 가져옴..실패시 널
+System.out.println(pw);
 
-if (user.getUser_name() == null || user.getPhone() == null) {
+if (user.getUser_name() == null || user.getUser_id() == null || user.getPhone() == null) {
     PrintWriter script = response.getWriter();
     script.println("<script>");
     script.println("alert('입력이 안 된 사항이 있습니다.')");
@@ -26,10 +25,10 @@ if (user.getUser_name() == null || user.getPhone() == null) {
    
          
     
-} else if (id != null) {
+} else if (pw != null) {
         PrintWriter script = response.getWriter();
         script.println("<script>");
-        script.println("alert('회원님의 아이디는["+ id + "]입니다.' );");
+        script.println("alert('회원님의 비밀번호는["+ pw + "]입니다.' );");
         script.println("location.href = 'loginform.jsp';");
         script.println("</script>");
         

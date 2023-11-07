@@ -108,24 +108,25 @@ public class UserDAO extends OracleDB{
 
 
 	// PW 찾기
-	public String findPw(String user_id, String phone) {
-		String found_pw = null;
-	
+	public String findPw(String user_name, String user_id, String phone) {
+		String pw = null;
+		String sql = "select user_pw from users where user_name=? and user_id=? and phone=? ";
 	try {
-		String sql = "select user_pw from users where user_id=? and phone=? ";
+		conn = getConnection();
 		pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, user_id);
-		pstmt.setString(2, phone);
+		pstmt.setString(1, user_name);
+		pstmt.setString(2, user_id);
+		pstmt.setString(3, phone);
 		
 		rs = pstmt.executeQuery();
 		
 		if(rs.next()) {
-			found_pw = rs.getString("user_pw");
+			pw = rs.getString("user_pw");
 		}
 			
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
-	return found_pw;
+	return pw;
 }
 }

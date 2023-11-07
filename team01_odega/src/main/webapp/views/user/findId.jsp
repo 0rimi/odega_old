@@ -68,7 +68,7 @@ k:hover {
         <td style="border: 0">
         
 			<div class = "search-title">
-				<h5>> 휴대폰 번호로 아이디 찾기</h5>
+				<h5>> 이름, 휴대폰 번호를 입력하세요.</h5>
 			</div>
 		<section class = "form-search">
 			<div class = "find-name">

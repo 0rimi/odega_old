@@ -58,32 +58,35 @@ k:hover {
       </table>
       
 <br></br><br></br>
-	<form name="pwfindscreen" method = "POST">
+	<form action="findPwAction.jsp" name="pwfindscreen" method = "POST">
 	
 	<table width="500px" height="250px" align="center" border="8"
        style="font-size: 20px; border-color: #F6F6F6; border-style: solid; margin-top: 2%">
-       <tr style="border: 0">
+       <tr style="border: 0" >
         <td style="border: 0">
         
 			<div class = "search-title">
-				<h5>> 휴대폰 번호로 비밀번호 찾기</h5>
+				<h5>> 이름, 아이디, 휴대폰 번호를 입력하세요.</h5>
 			</div>
 		<section class = "form-search">
-			<div class = "find-pw">
+		<div class = "find-name">
+				<label>NAME</label>
+				<input type="text" name="user_name" class = "btn-name" placeholder = "회원 이름">
+			<br>
+			</div>
+			<div class = "find-id">
 				<label>ID</label>
-				<input type="text" name="user_name" class = "user_id" placeholder = "등록한 아이디">
+				<input type="text" name="user_id" class = "btn-id" placeholder = "등록한 아이디">
 			<br>
 			</div>
 			<div class = "find-phone">
 				<label>PHONE</label>
-				<input type="text" onKeyup = "addHypen(this);" name="phone" class = "btn-phone" placeholder = "휴대폰번호를 '-'없이 입력">
+				<input type="text" name="phone" class = "btn-phone" placeholder = "휴대폰번호를 '-'없이 입력">
 			</div>
 			<br>
 	</section>
-	<div class ="btnSearch">
-		<input type="button" name="enter" value="찾기"  onClick="pw_search()">
-		<input type="button" name="cancle" value="취소" onClick="history.back()">
- 	</div>
+	
+	<button type= "submit" value="찾기">찾기</button>
  	
  		  </td>
        </tr>
