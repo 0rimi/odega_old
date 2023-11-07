@@ -110,11 +110,11 @@ searchPlaces();
 
 // 키워드 검색 요청 함수
 function searchPlaces() {
-	console.log(keyword+"를 검색!!!");
+	//console.log(keyword+"를 검색!!!");
 	var keyword = document.getElementById('keyword').value;
 
 	if (!keyword.replace(/^\s+|\s+$/g, '')) {
-		console.log('키워드 입력 필요!');
+		//console.log('키워드 입력 필요!');
 		return false;
 	}
 
@@ -240,20 +240,13 @@ function getListItem(index, places) {
 $(document).on('click', '.info', function(e) {
 	// console.log("클릭 : " + e.target.firstChild.nodeValue);
 	//클릭한 값 추출 및 저장
-	const id = e.currentTarget.dataset.id;
-	const x = e.currentTarget.dataset.x;
-	const y = e.currentTarget.dataset.y;
-	const place_name = e.currentTarget.children[0].innerText;
-	const address_name = e.currentTarget.children[1].textContent;
+	place_id = e.currentTarget.dataset.id;
+	longi = e.currentTarget.dataset.x;
+	lat = e.currentTarget.dataset.y;
+	place_name = e.currentTarget.children[0].innerText;
+	address_name = e.currentTarget.children[1].textContent;
 
-	//console.log("id:"+id+", 좌표:"+x+","+y+", 장소:"+place_name+", 주소:"+address_name);
-	
-	//전역변수선언
-	place_id = id;
-	place_place_name = place_name;
-	place_address_name=address_name;
-	place_x = x;
-	place_y = y;
+	//console.log("id:"+id+", 좌표:"+lat+","+longi+", 장소:"+place_name+", 주소:"+address_name);
 	
 	//지도 닫기
 	//$('#map').hide();
@@ -323,7 +316,7 @@ var modalPlace = {};
 
 //추가하기버튼 클릭시
 function addPlace(){
-	var place = [place_id,place_x,place_y,place_place_name,place_address_name];
+	var place = [place_id,lat,longi,place_name,address_name];
 	var des = $('#description').val();
 	var file = uploadFile;
 
@@ -332,21 +325,35 @@ function addPlace(){
 	//console.log(modalPlace);
 	
 	var placeList = document.getElementById('placeList');
-	var places = document.createElement("div");
-	places.innerHTML = "<div class='places p-3 d-flex justify-content-between'>"
+	var aPlace = document.createElement("div");
+	aPlace.innerHTML = "<div class='places p-3 d-flex justify-content-between'>"
 		+"<div>"
 		+"<h4 id=''>"+place[3]+"</h4>"
 		+"<div class='des'><small>"+des+"</small></div>"
 		+"</div><div><span class='delPlace'>X</span>"
 		+"</div>";
-	placeList.append(places);
+	placeList.append(aPlace);
+	
+	//본문 places 에 추가
+	places.push(modalPlace);
 	
 	//input reset
+	initialize();
 	
 	//모달 닫기
 	$("#modal_addPlace").modal('hide');
 }
 
+//초기화
+function initialize(){
+	//지도 초기화
+	reMap();
+	//file 초기화
+	$('#img').val(undefined);
+	$('#imgBox').empty();
+	//설명 초기화
+	$('#description').val(undefined);
+}
 
 //다시선택하기 버튼 클릭시
 function reMap(){

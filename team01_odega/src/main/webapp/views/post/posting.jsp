@@ -38,7 +38,7 @@
 		<form method="get" action="#">
 			<!-- 제목&본문 -->
 			<div class="form-floating mb-3">
-				<input type="text" class="form-control" id="title" placeholder="제목을 입력하세요" name="title" onChange="onChangeInputTitle" value="title">
+				<input type="text" class="form-control" id="title" placeholder="제목을 입력하세요" name="title" onChange="onChangeInputTitle()">
 				<label for="title">제목</label>
 			</div>
 															<!-- 임시유저넘버:3 -->
@@ -56,7 +56,7 @@
 			<ul id="tag-list"></ul>
 	
 	
-			<textarea class="form-control" rows="10" cols="40" id="contents" name="content" placeholder="본문을 입력해주세요!" onChange="onChangeInputContents" value="contents"></textarea>
+			<textarea class="form-control" rows="10" cols="40" id="contents" name="content" placeholder="본문을 입력해주세요!" onChange="onChangeInputContents()"></textarea>
 			<!-- /제목&본문 -->
 			
 			<!-- 장소 추가하기 -->
@@ -78,31 +78,33 @@
 
 //본문데이터 선언하기
 var title;
-var unum = $('#unum').val();
 var contents;
+var unum = $('#unum').val();
+
+function onChangeInputTitle () {
+	title = document.getElementById('title').value;
+}
+function onChangeInputContents () {
+	contents = document.getElementById('contents').value;
+}
 
 var tags = [];
 var tag = {};
+var places = [];
 
-		
-function onChangeInputTitle (e) {
-	title = e.target.value;
-}
-function onChangeInputTextArea (e) {
-	contents = e.target.value;
-}
-      	
-var postingData = {}      	
+var postingData = {};    	
 
 //폼데이터 불러오기
 function submitForm(){
-	  console.log(title);
-	  console.log(unum);
-	  console.log(contents);
-	  console.log(tags);
-	  
-	  console.log(modalPlace);
-	  
+	postingData = {
+		title : title,
+		contents : contents,
+		unum : unum,
+		tags : tags,
+		places : places
+	}	
+	
+	console.log(postingData);
 }
 
 $(document).ready(function () {
@@ -158,6 +160,7 @@ $(document).ready(function () {
       var index = $(this).attr("idx");
       tag[index] = "";
       $(this).parent().remove();
+      postingData.tags.splice(idx, 1);
    });
   
   //장소삭제
