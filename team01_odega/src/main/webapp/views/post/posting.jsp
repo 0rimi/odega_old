@@ -31,18 +31,18 @@
       	</script>
 	<%}
    		//로그인한 사용자 정보 받아오기
-   		//int sUserNum = Integer.parseInt(session.getAttribute("sUserNum"));
+   		int unum = (Integer)session.getAttribute("unum");
 	%>
 	
 	<section>
 		<form method="get" action="#">
 			<!-- 제목&본문 -->
 			<div class="form-floating mb-3">
-				<input type="text" class="form-control" id="title" placeholder="제목을 입력하세요" name="title">
+				<input type="text" class="form-control" id="title" placeholder="제목을 입력하세요" name="title" onChange="onChangeInputTitle" value="title">
 				<label for="title">제목</label>
 			</div>
 															<!-- 임시유저넘버:3 -->
-			<input class="form-control" type="hidden" name="user_num" value="<%--=userNum--%>">
+			<input class="form-control" id="unum" type="hidden" name="user_num" value="<%=unum%>">
 			
 			<!-- 태그추가 -->
 			<div class="m-2 d-flex align-items-center">
@@ -56,18 +56,18 @@
 			<ul id="tag-list"></ul>
 	
 	
-			<textarea class="form-control" rows="10" cols="40" name="content" placeholder="본문을 입력해주세요!"></textarea>
+			<textarea class="form-control" rows="10" cols="40" id="contents" name="content" placeholder="본문을 입력해주세요!" onChange="onChangeInputContents" value="contents"></textarea>
 			<!-- /제목&본문 -->
 			
+			<!-- 장소 추가하기 -->
+			<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_addPlace" onclick="mapOpen()">장소 추가하기</button>
 			
 			<!-- 추가한 장소 리스트 -->
 			<div id="placeList">
 				
 			</div>
-			
-			
-			<!-- 장소 추가하기 -->
-			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_addPlace" onclick="mapOpen()">장소 추가하기</button>		
+			<!-- 포스트 전송 -->
+			<button type="button" class="btn btn-primary" onclick="submitForm()">포스팅하기</button>
 		</form>
 		
 		<!-- Modal -->
@@ -75,15 +75,45 @@
 	</section>
 </body>
 <script>
+
+//본문데이터 선언하기
+var title;
+var unum = $('#unum').val();
+var contents;
+
+var tags = [];
+var tag = {};
+
+		
+function onChangeInputTitle (e) {
+	title = e.target.value;
+}
+function onChangeInputTextArea (e) {
+	contents = e.target.value;
+}
+      	
+var postingData = {}      	
+
+//폼데이터 불러오기
+function submitForm(){
+	  console.log(title);
+	  console.log(unum);
+	  console.log(contents);
+	  console.log(tags);
+	  
+	  console.log(modalPlace);
+	  
+}
+
 $(document).ready(function () {
-
-  	var tag = {};
-  	var counter = 0;
-
+	
+	var counter = 0;
+	
   	//태그 추가
   	function addTag(value) {
 	    tag[counter] = value; // 태그를 Object 안에 추가
 	    counter++; // counter 증가 삭제를 위한 del-btn 의 고유 id 가 된다.
+	    tags.push(value);	//태그값을 tags에 넣기
   	};
   	//서버에 넘길때 tag값들을 array type 으로 
   	function marginTag() {
@@ -117,7 +147,7 @@ $(document).ready(function () {
           	} else {
 	            alert("태그값이 중복됩니다.");
           	}
-        };
+        }
         
         e.preventDefault(); // SpaceBar 시 빈공간이 생기지 않도록 방지
       }
@@ -128,7 +158,17 @@ $(document).ready(function () {
       var index = $(this).attr("idx");
       tag[index] = "";
       $(this).parent().remove();
-    });
+   });
+  
+  //장소삭제
+  $(document).on("click", ".delPlace", function (e) {
+	  var thisDiv = $(this)[0].parentNode.parentNode.parentNode
+	  //console.log(thisDiv);
+	  console.log("추가된 장소 삭제");
+	  thisDiv.remove();
+	});
+  
+  
 });
 </script>
 </html>
