@@ -54,3 +54,9 @@ ul li.tag-item {
   	white-space: nowrap;
   	text-overflow:ellipsis;
 }
+.delPlace {
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 8px;
+}
