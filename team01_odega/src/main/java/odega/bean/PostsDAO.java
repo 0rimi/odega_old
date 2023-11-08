@@ -26,7 +26,7 @@ private static PostsDAO instance = new PostsDAO();
 		
 		try {
 			conn = getConnection();
-			pstmt = conn.prepareStatement("update posts set posts_views =posts_views+1 where num = ? ");
+			pstmt = conn.prepareStatement("update posts set content_cnt =content_cnt+1 where num = ? ");
 			pstmt.setInt(1, num);
 			pstmt.executeUpdate();
 			
