@@ -106,6 +106,7 @@ public class myPageDAO extends OracleDB {
 				dto.setUser_like_cnt(rs.getInt("user_like_cnt"));
 				dto.setReg(rs.getTimestamp("reg"));
 				dto.setUser_name(rs.getString("user_name"));
+				dto.setPhone(rs.getInt("phone"));
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -281,12 +282,35 @@ public class myPageDAO extends OracleDB {
 					dto.setStatus(rs.getInt("status"));
 					list.add(dto);
 				}
-			} else{
+			} else if(searchOption.equals("nickname")){
 				String sql = " select * from "
 						+ " (select ro.* , rownum r from "
 						+ " (select * "
 						+ " from users "
 						+ " where nickname like ? order by " + sql1 + " " + sql2 + ") ro) "
+						+ " where r >= ? and r <= ? ";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, "%" + search + "%");
+				pstmt.setInt(2, start);  
+				pstmt.setInt(3, end);  
+				rs = pstmt.executeQuery();
+				while(rs.next()){
+					myPageDTO dto = new myPageDTO();
+					dto.setNum(rs.getInt("num"));
+					dto.setUserid(rs.getString("user_id"));
+					dto.setNickname(rs.getString("nickname"));
+					dto.setBirth(rs.getTimestamp("birth"));
+					dto.setReg(rs.getTimestamp("reg"));
+					dto.setUser_name(rs.getString("user_name"));
+					dto.setStatus(rs.getInt("status"));
+					list.add(dto);
+				}
+			}else{
+				String sql = " select * from "
+						+ " (select ro.* , rownum r from "
+						+ " (select * "
+						+ " from users "
+						+ " where phone like ? order by " + sql1 + " " + sql2 + ") ro) "
 						+ " where r >= ? and r <= ? ";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, "%" + search + "%");

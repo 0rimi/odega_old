@@ -1,32 +1,50 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%><!DOCTYPE html>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="odega.bean.mypage.myPageDTO" %>
+<%@ page import="odega.bean.mypage.myPageDAO" %>
+<%@ page import = "java.text.SimpleDateFormat" %>
 <html>
-<%@ page import="java.util.ArrayList"%>
-<%@ page import="odega.bean.mypage.myPageDTO"%>
-<%@ page import="odega.bean.mypage.myPageDAO"%>
 
 <head>
 <meta charset="UTF-8">
-<title>ODEGA 회원정보 변경</title>
+<title> ODEGA MyPage </title>
 <link href="/odega/resources/img/good.PNG" rel="shortcut icon" type="image/x-icon">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </head>
 
-
 <body>
-	<%-- 페이징 --%>
-	<%
-   int pageSize = 6;
+	<%-- 페이징 처리 --%>
+<%
+   	int pageSize = 6;
    
-   String pageNum = request.getParameter("pageNum");
-   if(pageNum == null){
-      pageNum = "1";
-   }
+   	String pageNum = request.getParameter("pageNum");
+   	if(pageNum == null){
+      	pageNum = "1";
+   	}
    
-   int currentPage = Integer.parseInt(pageNum);
-   int start = (currentPage - 1) * pageSize + 1;
-   int end = currentPage * pageSize;
+   	int currentPage = Integer.parseInt(pageNum);
+   	int start = (currentPage - 1) * pageSize + 1;
+   	int end = currentPage * pageSize;
 %>
+
+
+	<%-- 로그인 체크 --%>
+<%
+   String sid = (String)session.getAttribute("sid");
+   if(sid == null){
+%>      <script>
+         alert("로그인 후 사용 가능합니다.");
+         window.location="../user/loginform.jsp";
+      </script>
+<% }
+   SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+   myPageDAO dao = new myPageDAO();
+   myPageDTO dto = new myPageDTO();
+   dto = dao.myInfo(sid);
+%>
+
+
 
 	<%-- 포스트 작성, 비밀번호 변경, 회원정보 변경 --%>
 	<%-- 로그인 상태 = 로그아웃 버튼 출력 , 로그아웃 상태 = 로그인 버튼 출력 --%>
@@ -34,13 +52,13 @@
    <div class="col" align="left" >
 			<%@ include file="../user/top.jsp"%>
 			<h2 class="mt-3">
-				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-				<a href="../post/posting.jsp?"><button type="button" class="btn btn-success"">포스트 작성</button></a>
 				<%
 				   String logsid = (String)session.getAttribute("sid");
 				   if(logsid != null){
 				%>
+				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				<a href="../post/posting.jsp?"><button type="button" class="btn btn-success"">포스트 작성</button></a>
 				&nbsp&nbsp
 				<button type="button" class="btn btn-success" 
 				data-bs-toggle="dropdown" aria-expanded="false">
@@ -60,12 +78,26 @@
 								
 				<% }%>
 			</h2>
-	</div>
+
+
+
+	<%-- 관리자페이지 이동(admin 계정일때만 확인가능) --%>
+<%
+   if(sid == null){
+%>      <script>
+         alert("로그인 후 사용 가능합니다.");
+         window.location="/odega/views/user/loginform.jsp";
+      </script>
+<% } else if(sid.equals("admin")){ %>
+		<div align="center" ><p style="font-size:30px"><button onclick="window.location='admin.jsp'" type="button" class="btn btn-success"">관리자 페이지</button></div>
+	<%}%>
+		</div>
 </div>
 <hr />
-<h1></h1>
-<br />
 
+<h1></h1><br />
+
+	<%-- 접속한 계정의 글정보 확인(최신순, 오래된순, 좋아요순) --%>
 	<%-- 검색(제목만 검색) , 검색(제목+본문 검색) --%>
 <div  align="center">
 	<form action="search.jsp">
@@ -86,41 +118,42 @@
 		<button type="submit" class="btn btn-success">검색</button>
     </form>
 </div>
-<h1></h1>
-<br />
 
 
-<div class="container">
-	<div class="col" align="left">
-		<div>
-			<%   
-   			String msql1 = request.getParameter("msql1");
-   			String msql2 = request.getParameter("msql2");
-   
-   			if(msql1 == null || msql2 == null){
-				msql1 = "p.reg";
-      			msql2 = "desc";
-   			} else{
-      			msql1 = request.getParameter("msql1");
-      			msql2 = request.getParameter("msql2");   
-   			}%>
-				<form action="nowMemberPassPro.jsp">
-					<div align="center">
-					<table class="table table-hover table-bordered">
-						<tr  align="center">
-							<td><br /> <h3>비밀번호를 입력하세요</h3></td>
-						</tr>
-						<tr align="center">
-							<td>현재 비밀번호<br /> <input type="password" name="nowPw" placeholder="현재 비밀번호 입력" required />
-							<button type=submit class="btn btn-success">확인</button></td>
-						</tr>
-					</table>
-				<h1></h1><br /><br /><br /><br /><br />
-				</div>
-				</form>
-			</div>
-		</div>
+	<%-- 글 작성자 이름 출력 --%>
+<div align="center" >
+   <h4>[<%= dto.getNickname() %>]님의 정보</h4>
 </div>
+
+<div align="center">
+	<table class="table table-hover table-bordered">
+		<tr>
+		<td align="center"><h5>아이디</h5></td>
+		<td align="left"><h5>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<%=dto.getUserid() %></h5></td>
+		</tr>
+		<tr>
+		<td align="center"><h5>이름</h5></td>
+		<td align="left"><h5>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<%=dto.getUser_name() %></h5></td>
+		</tr>
+		<tr>
+		<td align="center"><h5>닉네임</h5> </td>
+		<td align="left"><h5>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<%=dto.getNickname() %></h5> </td>
+		</tr>
+		<tr>
+		<td align="center"><h5>가입일</h5> </td>
+		<td align="left"><h5>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<%=sdf.format(dto.getReg())%></h5> </td>
+		</tr>
+		<tr>
+		<td align="center"><h5>생년월일</h5> </td>
+		<td align="left"><h5>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<%=sdf.format(dto.getBirth()) %></h5> </td>
+		</tr>
+		<tr>
+		<td align="center"><h5>전화번호</h5> </td>
+		<td align="left"><h5>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<%=dto.getPhone() %></h5> </td>
+		</tr>
+	</table>
+</div>
+
+
 </body>
 </html>
-

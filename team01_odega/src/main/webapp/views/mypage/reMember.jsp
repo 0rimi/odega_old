@@ -31,30 +31,35 @@
 
 	<%-- 포스트 작성, 비밀번호 변경, 회원정보 변경 --%>
 	<%-- 로그인 상태 = 로그아웃 버튼 출력 , 로그아웃 상태 = 로그인 버튼 출력 --%>
-<div align="center">
-		<div class="col" align="left">
+<div  align="center">
+   <div class="col" align="left" >
 			<%@ include file="../user/top.jsp"%>
 			<h2 class="mt-3">
-			&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-			&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-			<button type="button" class="btn btn-success"">포스트 작성</button>
-			&nbsp&nbsp<a href="myPage.jsp?sql1=posts_num&sql2=desc"><button type="button" class="btn btn-success">마이페이지</button></a>
-			<button type="button" class="btn btn-success" 
-			data-bs-toggle="dropdown" aria-expanded="false">회원정보 수정</button>
-   			<ul class="dropdown-menu">
-				<li><a class="dropdown-item" href="nowPassword.jsp">비밀번호 변경</a></li>
-				<li><a class="dropdown-item" href="reMember.jsp">회원정보 변경</a></li>
-			</ul>
-			<%
-   			String sid = (String)session.getAttribute("sid");
-   			if(sid != null){
-      		%>
-			&nbsp&nbsp
-			<button onclick="window.location='../user/logout.jsp'" type="button" class="btn btn-success">로그아웃</button>
-			<%} else {%>
-			&nbsp&nbsp
-			<button onclick="window.location='./user/loginform.jsp'" type="button" class="btn btn-success">로그인</button>
-			<% }%>
+				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				<a href="../post/posting.jsp?"><button type="button" class="btn btn-success"">포스트 작성</button></a>
+				<%
+				   String logsid = (String)session.getAttribute("sid");
+				   if(logsid != null){
+				%>
+				&nbsp&nbsp
+				<button type="button" class="btn btn-success" 
+				data-bs-toggle="dropdown" aria-expanded="false">
+   				회원정보</button>
+   				  <ul class="dropdown-menu">
+   				 	<li><a class="dropdown-item" href="myPageInfo.jsp">나의 정보 확인</a></li>
+   				  	<li><a class="dropdown-item" href="myPage.jsp?sql1=posts_num&sql2=desc">내가쓴 포스트 보기</a></li>
+				    <li><a class="dropdown-item" href="nowPassword.jsp">비밀번호 변경</a></li>
+				    <li><a class="dropdown-item" href="nowMemberPass.jsp">회원정보 변경</a></li>
+				  </ul>
+				&nbsp&nbsp
+				<button onclick="window.location='../user/logout.jsp'" type="button" class="btn btn-success">로그아웃</button>
+				<%} else {
+%>
+				&nbsp&nbsp
+				<button onclick="window.location='../user/loginform.jsp'" type="button" class="btn btn-success">로그인</button>
+								
+				<% }%>
 			</h2>
 		</div>
 </div>
