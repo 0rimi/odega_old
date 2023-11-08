@@ -197,7 +197,7 @@ public class myPageDAO extends OracleDB {
 						+ " (select ro.* , rownum r from "
 						+ " (select u.num, u.nickname, p.title, p.user_num, p.reg, i.img_url, p.content_cnt, i.posts_num, p.posts_views, p.post_like_cnt, p.num \"PNUM\" "
 						+ " from users u, posts p, images i "
-						+ " where u.num = p.user_num and i.posts_num(+) = p.num and p.title like ?  and p.posts_views=0 and post_image_num=1 order by" + sql1 + " " + sql2 +" ) ro) "
+						+ " where u.num = p.user_num and i.posts_num(+) = p.num and p.title like ?  and p.posts_views=0 and post_image_num=1 order by " + sql1 + " " + sql2 +" ) ro) "
 						+ " where r >= ? and r <= ? ";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, "%" + search + "%");
@@ -242,6 +242,66 @@ public class myPageDAO extends OracleDB {
 					dto.setImg(rs.getString("img_url"));
 					dto.setPost_like_cnt(rs.getInt("post_like_cnt"));
 					dto.setPost_content_cnt(rs.getInt("content_cnt"));
+					list.add(dto);
+				}
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			close(rs, pstmt, conn);
+		}
+		return list;
+	}
+	
+	// 유저 검색 (이름 or 닉네임)
+	public ArrayList<myPageDTO> searchUser(String search, String searchOption, int start, int end, String sql1, String sql2){
+		ArrayList<myPageDTO> list = new ArrayList<>();
+		conn = getConnection();
+		try {
+			if(searchOption.equals("name")) {
+				String sql = " select * from "
+						+ " (select ro.* , rownum r from "
+						+ " (select * "
+						+ " from users "
+						+ " where user_name like ? order by " + sql1 + " " + sql2 + ") ro) "
+						+ " where r >= ? and r <= ? ";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, "%" + search + "%");
+				pstmt.setInt(2, start);  
+				pstmt.setInt(3, end);  
+				rs = pstmt.executeQuery();
+				while(rs.next()){
+					myPageDTO dto = new myPageDTO();
+					dto.setNum(rs.getInt("num"));
+					dto.setUserid(rs.getString("user_id"));
+					dto.setNickname(rs.getString("nickname"));
+					dto.setBirth(rs.getTimestamp("birth"));
+					dto.setReg(rs.getTimestamp("reg"));
+					dto.setUser_name(rs.getString("user_name"));
+					dto.setStatus(rs.getInt("status"));
+					list.add(dto);
+				}
+			} else{
+				String sql = " select * from "
+						+ " (select ro.* , rownum r from "
+						+ " (select * "
+						+ " from users "
+						+ " where nickname like ? order by " + sql1 + " " + sql2 + ") ro) "
+						+ " where r >= ? and r <= ? ";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, "%" + search + "%");
+				pstmt.setInt(2, start);  
+				pstmt.setInt(3, end);  
+				rs = pstmt.executeQuery();
+				while(rs.next()){
+					myPageDTO dto = new myPageDTO();
+					dto.setNum(rs.getInt("num"));
+					dto.setUserid(rs.getString("user_id"));
+					dto.setNickname(rs.getString("nickname"));
+					dto.setBirth(rs.getTimestamp("birth"));
+					dto.setReg(rs.getTimestamp("reg"));
+					dto.setUser_name(rs.getString("user_name"));
+					dto.setStatus(rs.getInt("status"));
 					list.add(dto);
 				}
 			}
@@ -312,7 +372,7 @@ public class myPageDAO extends OracleDB {
 		int result = 0;
 		try {
 			conn = getConnection();
-			String sql = " select  count(*) from users u, posts p where u.num = p.user_num ";
+			String sql = " select  count(*) from users u, posts p where u.num = p.user_num and posts_views=0 ";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
@@ -336,6 +396,35 @@ public class myPageDAO extends OracleDB {
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				result = rs.getInt(1);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			close(rs, pstmt, conn);
+		}
+		return result;
+	}
+	
+	public int userSearchCount(String search , String searchOption) {
+		int result = 0;
+		try {
+			conn = getConnection();
+			if(searchOption.equals("name")) {
+				String sql = " select  count(*) from users where user_name like ? ";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, "%" + search + "%");
+				rs = pstmt.executeQuery();
+				if(rs.next()) {
+					result = rs.getInt(1);
+				}
+			} else {
+				String sql = " select  count(*) from users where nickname like ? ";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, "%" + search + "%");
+				rs = pstmt.executeQuery();
+				if(rs.next()) {
+					result = rs.getInt(1);
+				}
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -539,7 +628,7 @@ public class myPageDAO extends OracleDB {
 		return dto;
 	}
 	
-	
+	// 마이 페이지 글번호
 	public myPageDTO postsNum(int num) {
 		myPageDTO dto = new myPageDTO();
 		try {

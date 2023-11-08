@@ -3,7 +3,7 @@
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="odega.bean.mypage.myPageDTO"%>
 <%@ page import="odega.bean.mypage.myPageDAO"%>
-  
+
 <head>
 <meta charset="UTF-8">
 <title>ODEGA</title>
@@ -45,7 +45,7 @@
 		회원정보 수정</button>
 		<ul class="dropdown-menu">
 			<li><a class="dropdown-item" href="nowPassword.jsp">비밀번호 변경</a></li>
-			<li><a class="dropdown-item" href="nowMemberPass.jsp">회원정보 변경</a></li>
+			<li><a class="dropdown-item" href="reMember.jsp">회원정보 변경</a></li>
 		</ul>
 		<%
 		String sid = (String)session.getAttribute("sid");
@@ -101,7 +101,7 @@
       			msql1 = request.getParameter("msql1");
       			msql2 = request.getParameter("msql2");   
    			}%>
-				<form action="nowPasswordPro.jsp">
+				<form action="nowMemberPassPro.jsp">
 					<div align="center">
 					<table class="table table-hover table-bordered">
 						<tr  align="center">

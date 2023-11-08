@@ -15,125 +15,124 @@
 
 <body>
 
-	<%
-   int pageSize = 6;
+	<%-- 페이징 --%>
+<%
+   	int pageSize = 6;
    
-   String pageNum = request.getParameter("pageNum");
-   if(pageNum == null){
-      pageNum = "1";
-   }
+   	String pageNum = request.getParameter("pageNum");
+   	if(pageNum == null){
+      	pageNum = "1";
+   	}
    
-   int currentPage = Integer.parseInt(pageNum);
-   int start = (currentPage - 1) * pageSize + 1;
-   int end = currentPage * pageSize;
+   	int currentPage = Integer.parseInt(pageNum);
+   	int start = (currentPage - 1) * pageSize + 1;
+   	int end = currentPage * pageSize;
 %>
 
-	<div align="center">
-		<div class="col" align="left">
-			<%@ include file="../user/top.jsp"%>
-			<h2 class="mt-3">
-				<button type="button" class="btn btn-success"">구독중</button>
-				&nbsp&nbsp
-				<button type="button" class="btn btn-success"">포스트 작성</button>
-				&nbsp&nbsp<a href="myPage.jsp?sql1=posts_num&sql2=desc"><button type="button" class="btn btn-success">마이페이지</button></a>
+	<%-- 마이페이지 --%>
+	<%-- 로그인 상태 = 로그아웃 버튼 출력 , 로그아웃 상태 = 로그인 버튼 출력 --%>
+<div align="center">
+	<div class="col" align="left">
+		<%@ include file="../user/top.jsp"%>
+		<h2 class="mt-3">
+		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+		<button type="button" class="btn btn-success"">포스트 작성</button>
+		&nbsp&nbsp<a href="myPage.jsp?sql1=posts_num&sql2=desc"><button type="button" class="btn btn-success">마이페이지</button></a>
 
-				<%
-   String sid = (String)session.getAttribute("sid");
-   if(sid != null){
-      %>
-				&nbsp&nbsp
-				<button onclick="window.location='./user/logout.jsp'" type="button" class="btn btn-success">로그아웃</button>
-				<%} else {
-%>
-				&nbsp&nbsp
+		<%
+   		String sid = (String)session.getAttribute("sid");
+   		if(sid != null){%>
+			&nbsp&nbsp
+			<button onclick="window.location='./user/logout.jsp'" type="button" class="btn btn-success">로그아웃</button>
+			<%} else {%>
+			&nbsp&nbsp
 				<button onclick="window.location='./user/loginform.jsp'" type="button" class="btn btn-success">로그인</button>
-				<% }%>
-			</h2>
-
-		</div>
+		<% }%>
+		</h2>
 	</div>
-	<hr />
-	<h1></h1>
-	<br />
+</div>
+<hr />
+<h1></h1>
+<br />
 
-	<div align="center">
-		<form action="search.jsp">
-			&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <img
-				src="/odega/resources/img/today.png" style="width: 130px"> <img src="/odega/resources/img/odega.gif" style="width: 200px"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
-				<a href="main.jsp?msql1=p.reg&msql2=desc"><button type="button" class="btn btn-outline-success">전체 최신순</button></a> 
-				<a href="main.jsp?msql1=p.reg&msql2=asc"><button type="button" class="btn btn-outline-success">전체 오래된순</button></a> 
-				<a href="main.jsp?msql1=p.post_like_cnt&msql2=desc"><button type="button" class="btn btn-outline-success">전체 좋아요순</button></a> 
-				<select name="searchOption">
-					<option value="total">제목+본문</option>
-					<option value="title">제목</option>
-				</select> <input type="text" name="search" placeholder="보고싶은 포스팅은?">
-				<button type="submit" class="btn btn-success">검색</button>
-		</form>
-	</div>
+	<%-- 검색(제목만 검색) , 검색(제목+본문 검색) --%>
+<div align="center">
+	<form action="search.jsp">
+		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <img
+			src="/odega/resources/img/today.png" style="width: 130px"> <img src="/odega/resources/img/odega.gif" style="width: 200px"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
+			<a href="main.jsp?msql1=p.reg&msql2=desc"><button type="button" class="btn btn-outline-success">전체 최신순</button></a> 
+			<a href="main.jsp?msql1=p.reg&msql2=asc"><button type="button" class="btn btn-outline-success">전체 오래된순</button></a> 
+			<a href="main.jsp?msql1=p.post_like_cnt&msql2=desc"><button type="button" class="btn btn-outline-success">전체 좋아요순</button></a> 
+			<select name="searchOption">
+				<option value="total">제목+본문</option>
+				<option value="title">제목</option>
+			</select> <input type="text" name="search" placeholder="보고싶은 포스팅은?">
+			<button type="submit" class="btn btn-success">검색</button>
+	</form>
+</div>
+<h1></h1>
+<br />
 
-	<h1></h1>
-	<br />
-
-				<%   
-   String msql1 = request.getParameter("msql1");
-   String msql2 = request.getParameter("msql2");
+<%   
+	String msql1 = request.getParameter("msql1");
+   	String msql2 = request.getParameter("msql2");
    
-   if(msql1 == null || msql2 == null){
-      msql1 = "p.reg";
-      msql2 = "desc";
-   } else{
-      msql1 = request.getParameter("msql1");
-      msql2 = request.getParameter("msql2");   
-   }
-   %>
-   	<script type="text/javascript">
-
-	    
-	    function pwd() {
-	      	var password1 = document.getElementById('pwd1').value;
-	      	var password2 = document.getElementById('pwd2').value;
+   	if(msql1 == null || msql2 == null){
+      	msql1 = "p.reg";
+      	msql2 = "desc";
+   	} else{
+      	msql1 = request.getParameter("msql1");
+      	msql2 = request.getParameter("msql2");   
+   	}
+%>
+<script type="text/javascript">
+	function pwd() {
+		var password1 = document.getElementById('pwd1').value;
+		var password2 = document.getElementById('pwd2').value;
 	      	
-		    var num = password1.search(/[0-9]/g);
-		    var eng = password1.search(/[a-z]/ig);
-		    var spe = password1.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+		var num = password1.search(/[0-9]/g);
+		var eng = password1.search(/[a-z]/ig);
+		var spe = password1.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
 	      	
-	      	if(password1.length < 6 || password1.length > 20) {
-	              alert('비밀번호는 6 ~ 20자리까지만 가능합니다.');
-	              return false;
+		if(password1.length < 6 || password1.length > 20) {
+			alert('비밀번호는 6 ~ 20자리까지만 가능합니다.');
+	   		return false;
+		}
+	      	
+		if(num < 0 || eng < 0 || spe < 0) {
+	 		alert('영문, 숫자, 특수문자가 한글자 이상 포함되어야 합니다.');
+	   		return false;
 	          }
 	      	
-	      	if(num < 0 || eng < 0 || spe < 0) {
-	              alert('영문, 숫자, 특수문자가 한글자 이상 포함되어야 합니다.');
-	              return false;
-	          }
-	      	
-	      	if( password1 == password2 ) {
-	        	return true;
-	      	} else{
-	      		alert("비밀번호가 일치 하지 않습니다");
-	        	return false;
+		if( password1 == password2 ) {
+	 		return true;
+	  	} else{
+	   		alert("비밀번호가 일치 하지 않습니다");
+	     	return false;
 	      	}
 		}
-	</script>
-	<form action="rePasswordPro.jsp" onSubmit="return pwd()" method="post">
-		<div class="container">
-			<table class="table table-hover table-bordered">
-				<tr  align="center">
-					<td><br /> <h3> 회원가입을 위해서 정보를 입력하세요</h3></td>
-				</tr>
-				<tr align="center">
-					<td>변경할 비밀번호<br /> <input type="password" id="pwd1" name="password" placeholder="변경할 비밀번호 입력" required /></td>
-				</tr>
-				<tr align="center">
-					<td>변경할 비밀번호 확인<br /> <input type="password" id="pwd2" name="password" placeholder="변경할 비밀번호 확인" required /></td>
-				</tr>
-				<tr align="center">
-					<td><button type="submit">비밀번호 변경</button></td>
-				</tr>
-			</table>
-			<h1></h1><br /><br /><br /><br /><br />
-		</div>
-	</form>
+</script>
+
+<form action="rePasswordPro.jsp" onSubmit="return pwd()" method="post">
+	<div class="container">
+		<table class="table table-hover table-bordered">
+			<tr  align="center">
+				<td><br /> <h3> 회원가입을 위해서 정보를 입력하세요</h3></td>
+			</tr>
+			<tr align="center">
+				<td>변경할 비밀번호<br /> <input type="password" id="pwd1" name="password" placeholder="변경할 비밀번호 입력" required /></td>
+			</tr>
+			<tr align="center">
+				<td>변경할 비밀번호 확인<br /> <input type="password" id="pwd2" name="password" placeholder="변경할 비밀번호 확인" required /></td>
+			</tr>
+			<tr align="center">
+				<td><button type="submit">비밀번호 변경</button></td>
+			</tr>
+		</table>
+		<h1></h1><br /><br /><br /><br /><br />
+	</div>
+</form>
 </body>
 </html>
 

@@ -15,115 +15,116 @@
 
 <body>
 
-	<%
-   int pageSize = 6;
+	<%-- 페이징 --%>
+<%
+   	int pageSize = 6;
    
-   String pageNum = request.getParameter("pageNum");
-   if(pageNum == null){
-      pageNum = "1";
-   }
+   	String pageNum = request.getParameter("pageNum");
+   	if(pageNum == null){
+      	pageNum = "1";
+   	}
    
-   int currentPage = Integer.parseInt(pageNum);
-   int start = (currentPage - 1) * pageSize + 1;
-   int end = currentPage * pageSize;
+   	int currentPage = Integer.parseInt(pageNum);
+   	int start = (currentPage - 1) * pageSize + 1;
+   	int end = currentPage * pageSize;
 %>
 
-	<div align="center">
+	<%-- 포스트 작성, 비밀번호 변경, 회원정보 변경 --%>
+	<%-- 로그인 상태 = 로그아웃 버튼 출력 , 로그아웃 상태 = 로그인 버튼 출력 --%>
+<div align="center">
 		<div class="col" align="left">
 			<%@ include file="../user/top.jsp"%>
 			<h2 class="mt-3">
-				<button type="button" class="btn btn-success"">구독중</button>
-				&nbsp&nbsp
-				<button type="button" class="btn btn-success"">포스트 작성</button>
-				&nbsp&nbsp<a href="myPage.jsp?sql1=posts_num&sql2=desc"><button type="button" class="btn btn-success">마이페이지</button></a>
-				<button type="button" class="btn btn-success" 
-				data-bs-toggle="dropdown" aria-expanded="false">
-   				회원정보 수정</button>
-   				  <ul class="dropdown-menu">
-				    <li><a class="dropdown-item" href="nowPassword.jsp">비밀번호 변경</a></li>
-				    <li><a class="dropdown-item" href="reMember.jsp">회원정보 변경</a></li>
-				  </ul>
-				<%
-   String sid = (String)session.getAttribute("sid");
-   if(sid != null){
-      %>
-				&nbsp&nbsp
-				<button onclick="window.location='../user/logout.jsp'" type="button" class="btn btn-success">로그아웃</button>
-				<%} else {
-%>
-				&nbsp&nbsp
-				<button onclick="window.location='./user/loginform.jsp'" type="button" class="btn btn-success">로그인</button>
-				<% }%>
+			&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+			&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+			<button type="button" class="btn btn-success"">포스트 작성</button>
+			&nbsp&nbsp<a href="myPage.jsp?sql1=posts_num&sql2=desc"><button type="button" class="btn btn-success">마이페이지</button></a>
+			<button type="button" class="btn btn-success" 
+			data-bs-toggle="dropdown" aria-expanded="false">회원정보 수정</button>
+   			<ul class="dropdown-menu">
+				<li><a class="dropdown-item" href="nowPassword.jsp">비밀번호 변경</a></li>
+				<li><a class="dropdown-item" href="reMember.jsp">회원정보 변경</a></li>
+			</ul>
+			<%
+   			String sid = (String)session.getAttribute("sid");
+   			if(sid != null){
+      		%>
+			&nbsp&nbsp
+			<button onclick="window.location='../user/logout.jsp'" type="button" class="btn btn-success">로그아웃</button>
+			<%} else {%>
+			&nbsp&nbsp
+			<button onclick="window.location='./user/loginform.jsp'" type="button" class="btn btn-success">로그인</button>
+			<% }%>
 			</h2>
-
 		</div>
-	</div>
-	<hr />
-	<h1></h1>
-	<br />
+</div>
+<hr />
+<h1></h1>
+<br />
 
-	<div align="center">
+	<%-- 검색(제목만 검색) , 검색(제목+본문 검색) --%>
+<div align="center">
 		<form action="search.jsp">
 			&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <img
-				src="/odega/resources/img/today.png" style="width: 130px"> <img src="/odega/resources/img/odega.gif" style="width: 200px"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
-				<a href="main.jsp?msql1=p.reg&msql2=desc"><button type="button" class="btn btn-outline-success">전체 최신순</button></a> 
-				<a href="main.jsp?msql1=p.reg&msql2=asc"><button type="button" class="btn btn-outline-success">전체 오래된순</button></a> 
-				<a href="main.jsp?msql1=p.post_like_cnt&msql2=desc"><button type="button" class="btn btn-outline-success">전체 좋아요순</button></a> 
-				<select name="searchOption">
-					<option value="total">제목+본문</option>
-					<option value="title">제목</option>
-				</select> <input type="text" name="search" placeholder="보고싶은 포스팅은?">
-				<button type="submit" class="btn btn-success">검색</button>
+			src="/odega/resources/img/today.png" style="width: 130px"> <img src="/odega/resources/img/odega.gif" style="width: 200px"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
+			<a href="main.jsp?msql1=p.reg&msql2=desc"><button type="button" class="btn btn-outline-success">전체 최신순</button></a> 
+			<a href="main.jsp?msql1=p.reg&msql2=asc"><button type="button" class="btn btn-outline-success">전체 오래된순</button></a> 
+			<a href="main.jsp?msql1=p.post_like_cnt&msql2=desc"><button type="button" class="btn btn-outline-success">전체 좋아요순</button></a> 
+			<select name="searchOption">
+				<option value="total">제목+본문</option>
+				<option value="title">제목</option>
+			</select> <input type="text" name="search" placeholder="보고싶은 포스팅은?">
+			<button type="submit" class="btn btn-success">검색</button>
 		</form>
-	</div>
-
-	<hr />
-
-	<h1></h1>
-	<br />
+</div>
+<hr />
+<h1></h1>
+<br />
 
 
-	<div class="container">
+<div class="container">
 		<div class="col" align="left">
-
 			<div>
 				<%   
-   String msql1 = request.getParameter("msql1");
-   String msql2 = request.getParameter("msql2");
-   
-   if(msql1 == null || msql2 == null){
-      msql1 = "p.reg";
-      msql2 = "desc";
-   } else{
-      msql1 = request.getParameter("msql1");
-      msql2 = request.getParameter("msql2");   
-   }
-   %>
-	<form action="reMemberPro.jsp">
-		<div align="center">
-			<table class="table table-hover table-bordered">
-				<tr  align="center">
-					<td><br /> <h3> 회원가입을 위해서 정보를 입력하세요</h3></td>
-				</tr>
-				<tr align="center">
-					<td>이름<br /> <input type="text" name="user_name" placeholder="이름 입력" required /></td>
-				</tr>
-				<tr align="center">
-					<td>닉네임<br /> <input type="text" name="nickname" placeholder="닉네임 입력" required /></td>
-				</tr>
-				<tr align="center">
-					<td>전화번호<br /> <input type="number" name="phone" placeholder="-없이 전화번호 입력" required /></td>
-				</tr>
-				<tr align="center">
-					<td>생년월일<br /> <input type="date" name="birth" required /></td>
-				</tr>
-				<tr align="center">
-					<td><button type="submit">정보 수정</button></td>
-				</tr>
-			</table>
-			<h1></h1><br /><br /><br /><br /><br />
+   				String msql1 = request.getParameter("msql1");
+			   	String msql2 = request.getParameter("msql2");
+			   
+			   	if(msql1 == null || msql2 == null){
+			      	msql1 = "p.reg";
+			      	msql2 = "desc";
+			   	} else{
+			      	msql1 = request.getParameter("msql1");
+			      	msql2 = request.getParameter("msql2");   
+			   	}
+			   %>
+				<form action="reMemberPro.jsp">
+					<div align="center">
+						<table class="table table-hover table-bordered">
+							<tr  align="center">
+								<td><br /> <h3> 회원가입을 위해서 정보를 입력하세요</h3></td>
+							</tr>
+							<tr align="center">
+								<td>이름<br /> <input type="text" name="user_name" placeholder="이름 입력" required /></td>
+							</tr>
+							<tr align="center">
+								<td>닉네임<br /> <input type="text" name="nickname" placeholder="닉네임 입력" required /></td>
+							</tr>
+							<tr align="center">
+								<td>전화번호<br /> <input type="number" name="phone" placeholder="-없이 전화번호 입력" required /></td>
+							</tr>
+							<tr align="center">
+								<td>생년월일<br /> <input type="date" name="birth" required /></td>
+							</tr>
+							<tr align="center">
+								<td><button type="submit">정보 수정</button></td>
+							</tr>
+						</table>
+						<h1></h1><br /><br /><br /><br /><br />
+					</div>
+				</form>
 			</div>
-	</form>
+		</div>
+</div>				
 </body>
 </html>
 

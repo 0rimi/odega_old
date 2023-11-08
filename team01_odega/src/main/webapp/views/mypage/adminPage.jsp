@@ -14,26 +14,26 @@
 
 <body>
 
-	<%
-   int pageSize = 6;
+	<%	// 페이징 처리
+   	int pageSize = 6;
    
-   String pageNum = request.getParameter("pageNum");
-   if(pageNum == null){
-      pageNum = "1";
-   }
+   	String pageNum = request.getParameter("pageNum");
+   	if(pageNum == null){
+      	pageNum = "1";
+   	}
    
-   int currentPage = Integer.parseInt(pageNum);
-   int start = (currentPage - 1) * pageSize + 1;
-   int end = currentPage * pageSize;
+   	int currentPage = Integer.parseInt(pageNum);
+   	int start = (currentPage - 1) * pageSize + 1;
+   	int end = currentPage * pageSize;
 %>
 
 	<div align="center">
 		<div class="col" align="left">
 			<%@ include file="../user/top.jsp"%>
 			<h2 class="mt-3">
-				<button type="button" class="btn btn-success"">구독중</button>
-				&nbsp&nbsp
-				<button type="button" class="btn btn-success"">포스트 작성</button>
+				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				<a href="../post/posting.jsp?"><button type="button" class="btn btn-success"">포스트 작성</button></a>
 				&nbsp&nbsp<a href="./mypage/myPage.jsp?sql1=posts_num&sql2=desc"><button type="button" class="btn btn-success">마이페이지</button></a>
 
 				<%

@@ -14,18 +14,18 @@
 
 <body>
 
-	<%-- 페이징 --%>
+	<%-- 페이징 처리 --%>
 <%
-   int pageSize = 6;
+   	int pageSize = 6;
    
-   String pageNum = request.getParameter("pageNum");
-   if(pageNum == null){
-      pageNum = "1";
-   }
+   	String pageNum = request.getParameter("pageNum");
+   	if(pageNum == null){
+      	pageNum = "1";
+   	}
    
-   int currentPage = Integer.parseInt(pageNum);
-   int start = (currentPage - 1) * pageSize + 1;
-   int end = currentPage * pageSize;
+   	int currentPage = Integer.parseInt(pageNum);
+   	int start = (currentPage - 1) * pageSize + 1;
+   	int end = currentPage * pageSize;
 %>
 
 
@@ -45,15 +45,15 @@
 
 
 
-	<%-- 비밀번호 변경 , 회원정보 변경 --%>
+	<%-- 포스트 작성, 비밀번호 변경, 회원정보 변경 --%>
+	<%-- 로그인 상태 = 로그아웃 버튼 출력 , 로그아웃 상태 = 로그인 버튼 출력 --%>
 <div  align="center">
    <div class="col" align="left" >
 			<%@ include file="../user/top.jsp"%>
 			<h2 class="mt-3">
-				&nbsp&nbsp
-				<button type="button" class="btn btn-success">구독중</button>
-				&nbsp&nbsp
-				<button type="button" class="btn btn-success"">포스트 작성</button>
+				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				<a href="../post/posting.jsp?"><button type="button" class="btn btn-success"">포스트 작성</button></a>
 				<%
 				   String logsid = (String)session.getAttribute("sid");
 				   if(logsid != null){
@@ -64,7 +64,7 @@
    				회원정보 수정</button>
    				  <ul class="dropdown-menu">
 				    <li><a class="dropdown-item" href="nowPassword.jsp">비밀번호 변경</a></li>
-				    <li><a class="dropdown-item" href="reMember.jsp">회원정보 변경</a></li>
+				    <li><a class="dropdown-item" href="nowMemberPass.jsp">회원정보 변경</a></li>
 				  </ul>
 				&nbsp&nbsp
 				<button onclick="window.location='../user/logout.jsp'" type="button" class="btn btn-success">로그아웃</button>
@@ -78,7 +78,7 @@
 
 
 
-	<%-- 관리자페이지 이동 --%>
+	<%-- 관리자페이지 이동(admin 계정일때만 확인가능) --%>
 <%
    if(sid == null){
 %>      <script>
@@ -94,7 +94,8 @@
 
 <h1></h1><br />
 
-	<%-- 접속한 계정의 글정보 확인(최신순, 오래된순, 좋아요순 , 검색) --%>
+	<%-- 접속한 계정의 글정보 확인(최신순, 오래된순, 좋아요순) --%>
+	<%-- 검색(제목만 검색) , 검색(제목+본문 검색) --%>
 <div  align="center">
 	<form action="search.jsp">
 		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
@@ -105,7 +106,7 @@
       	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
       	<a href="../mypage/myPage.jsp?sql1=posts_num&sql2=desc"><button type="button" class="btn btn-outline-success">나의 최신순</button></a>
       	<a href="../mypage/myPage.jsp?sql1=posts_num&sql2=asc"><button type="button" class="btn btn-outline-success" >나의 오래된순</button></a>
-      	<a href="/odega/views/recomm/like_list.jsp"><button type="button" class="btn btn-outline-success">나의 좋아요순</button></a>
+      	<a href="../mypage/myPage.jsp?sql1=post_like_cnt&sql2=desc"><button type="button" class="btn btn-outline-success">나의 좋아요순</button></a>
       	<select name="searchOption">
          	<option value = "total" >제목+본문</option>
          	<option value = "title" >제목</option>
@@ -115,11 +116,14 @@
     </form>
 </div>
 
+
 	<%-- 글 작성자 이름 출력 --%>
 <div align="center" >
    <h4>[<%= dto.getNickname() %>]님의 포스팅 목록</h4>
 </div>
 
+
+	<%-- 최신순, 오래된순으로 정렬하기위한 파라미터 설정 --%>
 <div class="container" >
 	<div class="col" align="left" >
 		<div>

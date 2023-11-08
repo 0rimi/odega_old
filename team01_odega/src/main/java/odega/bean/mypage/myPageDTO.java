@@ -1,9 +1,9 @@
 package odega.bean.mypage;
 
 import java.sql.Timestamp;
- 
+
 public class myPageDTO {
- 
+
    private int num;
    private String userid;
    private String userpw;

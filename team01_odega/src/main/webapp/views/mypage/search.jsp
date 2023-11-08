@@ -1,9 +1,8 @@
- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%><!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%><!DOCTYPE html>
 <html> 
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="odega.bean.mypage.myPageDTO" %>
 <%@ page import="odega.bean.mypage.myPageDAO" %>
-<html>
 <jsp:useBean id="dto" class="odega.bean.mypage.myPageDTO" />
 <jsp:useBean id="dao" class="odega.bean.mypage.myPageDAO" />
 
@@ -18,6 +17,7 @@
 
 <body>
 
+	<%-- 페이징 --%>
 <%
 	int pageSize = 6;	// 한 페이지에 보여줄 글의 개수
 	
@@ -31,36 +31,34 @@
 	int end = currentPage * pageSize;
 %>
 
+	<%-- 포스트 작성, 비밀번호 변경, 회원정보 변경 --%>
+	<%-- 로그인 상태 = 로그아웃 버튼 출력 , 로그아웃 상태 = 로그인 버튼 출력 --%>
 <div  align="center">
 	<div class="col" align="left" >
-	<%@ include file="../user/top.jsp"%>
-	<H4></H4>
+		<%@ include file="../user/top.jsp"%>
+		<H4></H4>
 		<h2>
 		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-		&nbsp&nbsp<a href="main.jsp"><button type="button" class="btn btn-success">홈</button></a> 
-		&nbsp&nbsp<button type="button" class="btn btn-success"">구독중</button>
-		&nbsp&nbsp<button type="button" class="btn btn-success"">포스트 작성</button>
+		&nbsp&nbsp<a href="../post/posting.jsp?"><button type="button" class="btn btn-success"">포스트 작성</button></a>
 		&nbsp&nbsp<a href="myPage.jsp?sql1=posts_num&sql2=desc"><button type="button" class="btn btn-success">마이페이지</button></a>
 		
 <%
-	String search = request.getParameter("search");
-	String searchOption = request.getParameter("searchOption");
-	String sid = (String)session.getAttribute("sid");
-	if(sid != null){
-		%>
-		&nbsp&nbsp<button onclick="window.location='./user/logout.jsp'" type="button" class="btn btn-success">로그아웃</button>
-	<%} else {
-%>
-		&nbsp&nbsp<button onclick="window.location='searchLoginFrom.jsp'" type="button" class="btn btn-success">로그인</button>
-<% }%>
+		String search = request.getParameter("search");
+		String searchOption = request.getParameter("searchOption");
+		String sid = (String)session.getAttribute("sid");
+		if(sid != null){%>
+			&nbsp&nbsp<button onclick="window.location='../user/logout.jsp'" type="button" class="btn btn-success">로그아웃</button>
+	<%} else {%>
+			&nbsp&nbsp<button onclick="window.location='searchLoginFrom.jsp'" type="button" class="btn btn-success">로그인</button>
+		<% }%>
 		</h2>
-
 	</div>
 </div>
 <hr />
 <h1></h1><br />
 
+	<%-- select를 사용하여 검색(제목만 검색) , 검색(제목+본문 검색) --%>
 <div  align="center">
 	<form action="search.jsp">
 		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
@@ -81,20 +79,20 @@
     </form>
 </div>
 
-	<%
-	   if(sid == null){
-	%>      <script>
-	         alert("로그인 후 사용 가능합니다.");
-	         window.location="/odega/views/user/loginform.jsp";
-	      </script>
+<%
+	if(sid == null){%>	
+	<script>
+		alert("로그인 후 사용 가능합니다.");
+		window.location="/odega/views/user/loginform.jsp";
+	</script>
 	<% } else if(sid.equals("admin")){ %>
 		<div align="center">
 			<form action="search.jsp">
-					&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
-					&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-					&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
-					<a href="admin.jsp?msql1=p.reg&msql2=desc"><button type="button" class="btn btn-outline-success">추천/글삭제</button></a> 
-					<a href="adminMembers.jsp"><button type="button" class="btn btn-outline-success">회원 강제 탈퇴</button></a> 
+				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
+				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				<a href="admin.jsp?msql1=p.reg&msql2=desc"><button type="button" class="btn btn-outline-success">추천/글삭제</button></a> 
+				<a href="adminMembers.jsp"><button type="button" class="btn btn-outline-success">회원 강제 탈퇴</button></a> 
 			</form>
 		</div>
 	<%}%>
@@ -102,45 +100,53 @@
 
 <h1></h1><br />
 <div align="center" >
-<h1>검색한 <% search = request.getParameter("search"); %>"<%=search %>" 의 포스트입니다.</h1>
+	<h1>검색한 <% search = request.getParameter("search"); %>"<%=search %>" 의 포스트입니다.</h1>
+	<h1></h1><hr />
 </div>
 
 
 <div class="container" >
 	<div class="col" align="left" >
 		<div>
-<%	
-	String sql1 = request.getParameter("sql1");
-	String sql2 = request.getParameter("sql2");
-	if(sql1 == null || sql2 == null){
-		sql1 = "p.reg";
-		sql2 = "desc";
-	} else{
-		sql1 = request.getParameter("sql1");
-		sql2 = request.getParameter("sql2");	
-	}
-	%>
-	<div class="container" >
-	<div class="row" align="center" >
+			<%-- 검색시 최신순, 오래된순으로 검색하기위한 파라미터값 설정 --%>
 <%
-	ArrayList<myPageDTO> list = dao.searchList(search, searchOption, start, end, sql1, sql2);
-	for(myPageDTO sdto : list){
-%><div class="col-md-4">
-				<a href="posts.jsp?num=<%= sdto.getPost_num()%>">
-					<img src="/odega/resources/img/<%=sdto.getImg()%>" style="width:200px; height:170px;" border="2;" />
-				</a>
-				<a href="posts.jsp?num=<%= sdto.getPost_num()%>">
-					<b><p style="font-size:18px;">제목 : <%=sdto.getPost_title()%></p></b>
-				</a>
-				<p style="font-size:15px;">작성자 : <%=sdto.getNickname()%></p>
-				<p style="font-size:15px;">조회수 : <%=	sdto.getPost_content_cnt() %></p>
-				<p style="font-size:15px;">작성일 : <%=sdto.getPost_reg()%></p>
-				<h5><img src="/odega/resources/img/good.PNG" style="width:30px"> <%=sdto.getPost_like_cnt()%></h5>
+			String sql1 = request.getParameter("sql1");
+			String sql2 = request.getParameter("sql2");
+			if(sql1 == null || sql2 == null){
+				sql1 = "p.reg";
+				sql2 = "desc";
+			} else{
+				sql1 = request.getParameter("sql1");
+				sql2 = request.getParameter("sql2");	
+			}
+	%>
+				<div class="container" >
+					<div class="row" align="center" >
+						<%
+							ArrayList<myPageDTO> list = dao.searchList(search, searchOption, start, end, sql1, sql2);
+							for(myPageDTO sdto : list){
+						%><div class="col-md-4">
+									<a href="posts.jsp?num=<%= sdto.getPost_num()%>">
+										<img src="/odega/resources/img/<%=sdto.getImg()%>" style="width:200px; height:170px;" border="2;" />
+									</a>
+									<a href="posts.jsp?num=<%= sdto.getPost_num()%>">
+										<b><p style="font-size:18px;">제목 : <%=sdto.getPost_title()%></p></b>
+									</a>
+									<p style="font-size:15px;">작성자 : <%=sdto.getNickname()%></p>
+									<p style="font-size:15px;">조회수 : <%=	sdto.getPost_content_cnt() %></p>
+									<p style="font-size:15px;">작성일 : <%=sdto.getPost_reg()%></p>
+									<h5><img src="/odega/resources/img/good.PNG" style="width:30px"> <%=sdto.getPost_like_cnt()%></h5>
+						</div>
+							<% } %>
+					</div>
 				</div>
-			<% } %>
 		</div>
-		<h1></h1><br/>
-		<div align="center">
+	</div>
+</div>
+								<h1></h1><br/>
+		
+		
+<div align="center">
 <%
 	int count = dao.searchCount(search, searchOption);
 	if(count > 0){
@@ -165,8 +171,8 @@
 	}
 %>
 </div>
-		<h1></h1><br/>
-		<h1></h1><br/>
+<h1></h1><br/>
+<h1></h1><br/>
 </body>
 </html>
 

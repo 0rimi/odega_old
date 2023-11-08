@@ -21,9 +21,9 @@
 		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 		&nbsp&nbsp<a href="main.jsp"><button type="button" class="btn btn-success">홈</button></a> 
-		&nbsp&nbsp<button type="button" class="btn btn-success"">구독중</button>
 		&nbsp&nbsp<a href="myPage.jsp?sql1=posts_num&sql2=desc"><button type="button" class="btn btn-success">마이페이지</button></a>
-<%
+
+<%	// 글번호 전송을 위한 파라미터값 설정
 int num = Integer.parseInt(request.getParameter("num"));
 	myPageDAO dao = new myPageDAO();
 	myPageDTO dto = dao.postsNum(num);

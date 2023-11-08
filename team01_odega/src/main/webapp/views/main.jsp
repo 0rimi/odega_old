@@ -41,7 +41,7 @@
       %>
                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-            <a href="../views/post/posting.jsp?"><button type="button" class="btn btn-success"">포스트 작성</button></a>
+            <a href="../views/post/posting.jsp?"><button type="button" class="btn btn-success">포스트 작성</button></a>
             &nbsp&nbsp<a href="./mypage/myPage.jsp?sql1=posts_num&sql2=desc"><button type="button" class="btn btn-success">마이페이지</button></a>
       
             &nbsp&nbsp
