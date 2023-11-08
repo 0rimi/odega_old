@@ -366,7 +366,7 @@ public class myPageDAO extends OracleDB {
 		}
 		return result;
 	}
-	
+
 	// 전체 포스트 개수 (페이징)
 	public int mcount() {
 		int result = 0;
