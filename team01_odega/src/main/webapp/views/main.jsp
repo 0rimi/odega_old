@@ -94,13 +94,15 @@
       msql2 = request.getParameter("msql2");   
    }
    %>
-            <div class="container">
-               <div class="row" align="center">
-                  <%
-   myPageDAO dao = new myPageDAO();
-   ArrayList<myPageDTO> list = dao.mainList(start, end , msql1 , msql2);
-   for(myPageDTO dto : list){
-%><div class="col-md-4">
+   
+<div class="container">
+ 	<div class="row" align="center">
+<%
+	   myPageDAO dao = new myPageDAO();
+	   ArrayList<myPageDTO> list = dao.mainList(start, end , msql1 , msql2);
+	   for(myPageDTO dto : list){
+%>
+			<div class="col-md-4">
                      <a href="../views/post/postView.jsp?num=<%= dto.getPost_num()%>"> <img src="/odega/resources/img/<%=dto.getImg()%>" style="width: 200px; height: 170px;" border="2;" />
                      </a> <a href="../views/post/postView.jsp?num=<%= dto.getPost_num()%>"> <b><p style="font-size: 18px;">
                               제목 :
