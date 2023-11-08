@@ -37,7 +37,7 @@
 				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 				<button type="button" class="btn btn-success">포스트 작성</button>
-				&nbsp&nbsp<a href="myPage.jsp?sql1=posts_reg&sql2=desc"><button type="button" class="btn btn-success">마이페이지</button></a>
+				&nbsp&nbsp<a href="myPage.jsp?sql1=posts_num&sql2=desc"><button type="button" class="btn btn-success">마이페이지</button></a>
 
 				<%
 	String search = request.getParameter("search");
@@ -125,11 +125,18 @@
 <%-- 삭제할 전체 회원 목록 호출 --%>
 <div class="container">
 	<div class="row" align="center">
+			<script type="text/javascript">
+				function del(num) {
+					if(confirm("정말 삭제하시겠습니까?")==true){
+						location.href='myPostsDelete.jsp?num='+num;
+					}
+				}
 			<%
 			myPageDAO dao = new myPageDAO();
 			ArrayList<myPageDTO> list = dao.searchPostDel(search, searchOption, start, end, msql1, msql2);
 			for(myPageDTO dto : list){
 			%>
+			</script>
 			<div class="col-md-4">
 				<a href="../post/postView.jsp?num=<%=dto.getPost_num()%>">
 				<img src="/odega/resources/img/<%=dto.getImg()%>" style="width:200px; height:170px;" border="2;" /></a>
@@ -140,14 +147,7 @@
 				<p style="font-size:15px;">작성일 : <%=dto.getPost_reg()%></p>
 				<h5><img src="/odega/resources/img/good.PNG" style="width:30px"> <%=dto.getPost_like_cnt()%></h5>
 				<a href="myPostsUpdate.jsp?num=<%=dto.getPost_num()%>"><button type="button" class="btn btn-success" >추천</button></a>
-				<script type="text/javascript">
-					function del() {
-						if(confirm("정말 삭제하시겠습니까?")==true){
-							location.href='myPostsDelete.jsp?num=<%=dto.getPost_num()%>';
-						}
-					}
-				</script>
-				<button onclick="del();" type="button" class="btn btn-success" >삭제</button>
+				<button onclick="del(<%=dto.getPost_num()%>);" type="button" class="btn btn-success" >삭제</button>
 				<h3></h3>
 				<hr />
 			</div>
