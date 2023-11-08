@@ -116,7 +116,6 @@
     </form>
 </div>
 
-
 	<%-- 글 작성자 이름 출력 --%>
 <div align="center" >
    <h4>[<%= dto.getNickname() %>]님의 포스팅 목록</h4>

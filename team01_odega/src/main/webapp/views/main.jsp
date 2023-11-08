@@ -162,7 +162,7 @@
 </div>
 <h1></h1>
 
-	<!-- 운영자 추천 게시글 -->
+	 <!-- 운영자 추천 게시글 -->
 			<div class="container">
 			<p style="padding-left: 20px;" class="display-6">에디터's Pick</p>
 			

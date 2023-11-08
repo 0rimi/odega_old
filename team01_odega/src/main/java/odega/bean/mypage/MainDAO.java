@@ -105,5 +105,4 @@ public class MainDAO extends OracleDB{
 			}
 			return list;
 		}
-	
 }

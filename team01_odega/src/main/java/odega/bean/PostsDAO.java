@@ -83,6 +83,7 @@ private static PostsDAO instance = new PostsDAO();
         }return likeup;
      }
 	
+	//관리자 계정으로 좋아요 시 admin_like 증가
 	public int adminLike(int posts_num) {
 		int adminlike=0;
 		Connection conn = null;
