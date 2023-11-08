@@ -19,7 +19,7 @@ public class MainDAO extends OracleDB{
 					+ "           FROM images "
 					+ "       ) "
 					+ " WHERE rn = 1) i where p.user_num = u.num and p.num = i.posts_num) "
-					+ " order by posts_views desc fetch first 3 rows only ";
+					+ " order by content_cnt desc fetch first 3 rows only ";
 			pstmt=conn.prepareStatement(sql);
 			rs=pstmt.executeQuery();
 			while(rs.next()) {
@@ -28,7 +28,7 @@ public class MainDAO extends OracleDB{
 				dto.setTitle(rs.getString("title"));
 				dto.setContent(rs.getString("content"));
 				dto.setPost_like_cnt(rs.getInt("post_like_cnt"));
-				dto.setPosts_views(rs.getInt("posts_views"));
+				dto.setPosts_views(rs.getInt("content_cnt"));
 				dto.setReg(rs.getTimestamp("reg"));
 				dto.setNickname(rs.getString("nickname"));
 				dto.setImg_url(rs.getString("img_url"));
@@ -61,7 +61,7 @@ public class MainDAO extends OracleDB{
 				dto.setTitle(rs.getString("title"));
 				dto.setContent(rs.getString("content"));
 				dto.setPost_like_cnt(rs.getInt("post_like_cnt"));
-				dto.setPosts_views(rs.getInt("posts_views"));
+				dto.setPosts_views(rs.getInt("content_cnt"));
 				dto.setReg(rs.getTimestamp("reg"));
 				dto.setNickname(rs.getString("nickname"));
 				dto.setImg_url(rs.getString("img_url"));
