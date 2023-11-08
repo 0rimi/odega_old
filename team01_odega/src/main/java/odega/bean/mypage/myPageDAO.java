@@ -122,7 +122,7 @@ public class myPageDAO extends OracleDB {
 					+ " (select ro.* , rownum r from "
 					+ " (select u.num, u.nickname, p.title, p.user_num, p.reg, p.content_cnt, i.img_url, i.posts_num, p.posts_views, p.post_like_cnt, p.num \"PNUM\" "
 					+ " from users u, posts p, images i "
-					+ " where u.num = p.user_num and i.posts_num = p.num and user_id=? and p.posts_views=0  and post_image_num=1 order by "+ sql1 +" " + sql2 +") ro) "
+					+ " where u.num = p.user_num and i.posts_num = p.num and user_id=? and p.posts_views=0  and post_image_num=1 order by "+ sql1 +" " + sql2 + " ) ro) "
 					+ " where r >= ? and r <= ? ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, sid);

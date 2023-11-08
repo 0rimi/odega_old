@@ -19,7 +19,7 @@
 	response.sendRedirect("admin.jsp?sql1=posts_num&sql2=desc");
 	//request.getRequestDispatcher("posts.jsp?num="+num);
 	}else{ %>
-	<a href="postsLoginForm.jsp?num=<%=dto.getPost_num()%>">로그인</a> 후 좋아요 사용가능
+	<a href="../user/loginform.jsp"></a>
 	<%} 
 %>
 

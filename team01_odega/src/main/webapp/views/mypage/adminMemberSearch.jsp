@@ -37,7 +37,7 @@
 				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 				<button type="button" class="btn btn-success">포스트 작성</button>
-				&nbsp&nbsp<a href="myPage.jsp?sql1=posts_reg&sql2=desc"><button type="button" class="btn btn-success">마이페이지</button></a>
+				&nbsp&nbsp<a href="myPage.jsp?sql1=posts_num&sql2=desc"><button type="button" class="btn btn-success">마이페이지</button></a>
 
 				<%
 	String search = request.getParameter("search");
@@ -62,7 +62,7 @@
 	<%-- 관리자 계정의 글정보 확인(최신순, 오래된순, 좋아요순 , 검색) --%>
 	<%-- 검색(제목만 검색) , 검색(제목+본문 검색) --%>
 	<div align="center">
-		<form action="adminMemberSearch.jsp">
+		<form action="adminPostSearch.jsp">
 			&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <img
 				src="/odega/resources/img/today.png" style="width: 130px"> <img src="/odega/resources/img/odega.gif" style="width: 200px"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
 				<a href="admin.jsp?msql1=reg&msql2=desc"><button type="button" class="btn btn-success">추천/글삭제</button></a> 
@@ -125,6 +125,13 @@
 <%-- 삭제할 전체 회원 목록 호출 --%>
 <div class="container">
 	<div class="row" align="center">
+			<script type="text/javascript">
+				function del(userNum) {
+					if(confirm("정말 삭제하시겠습니까?")==true){
+						location.href='myMemberDelete.jsp?unum='+userNum;
+					}
+				}
+			</script>
 			<%
 			myPageDAO dao = new myPageDAO();
 			ArrayList<myPageDTO> list = dao.searchUser(search, searchOption, start, end, msql1, msql2);
@@ -137,14 +144,7 @@
 				<p style="font-size: 15px;">생년월일 :<%=dto.getBirth()%></p>
 				<p style="font-size: 15px;">등록일 :<%=dto.getReg()%></p>
 				<p style="font-size: 15px;">유저 이름 :<%=dto.getUser_name()%></p>
-				<script type="text/javascript">
-					function del() {
-						if(confirm("정말 삭제하시겠습니까?")==true){
-							location.href='myMemberDelete.jsp?unum=<%=dto.getNum()%>';
-						}
-					}
-				</script>
-				<a href="myMemberDelete.jsp?unum=<%=dto.getNum()%>"><button onclick="del();" type="button" class="btn btn-success" >삭제</button></a>
+				<button onclick="del(<%=dto.getNum()%>);" type="button" class="btn btn-success" >삭제</button></a>
 				<h3></h3>
 				<hr />
 			</div>
