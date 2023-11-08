@@ -3,7 +3,7 @@
 <%@ page import="odega.bean.mypage.myPageDTO" %>
 <%@ page import="odega.bean.mypage.myPageDAO" %>
 <html>
-  
+
 <head>
 <meta charset="UTF-8">
 <title> ODEGA 관리자 페이지 </title>

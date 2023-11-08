@@ -5,7 +5,7 @@
 <%@ page import="odega.bean.mypage.myPageDAO" %>
 <jsp:useBean id="dto" class="odega.bean.mypage.myPageDTO" />
 <jsp:useBean id="dao" class="odega.bean.mypage.myPageDAO" />
-    
+
 <head>
 <meta charset="UTF-8">
 <title> ODEGA 검색 </title>
