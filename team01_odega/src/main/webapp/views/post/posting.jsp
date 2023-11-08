@@ -62,6 +62,7 @@
 			<!-- 장소 추가하기 -->
 			<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_addPlace" onclick="mapOpen()">장소 추가하기</button>
 			
+			
 			<!-- 추가한 장소 리스트 -->
 			<div id="placeList">
 				
@@ -72,6 +73,7 @@
 		
 		<!-- Modal -->
 		<jsp:include page="modal.jsp" />
+		
 	</section>
 </body>
 <script>
@@ -80,22 +82,21 @@
 var title;
 var contents;
 var unum = $('#unum').val();
-
 function onChangeInputTitle () {
 	title = document.getElementById('title').value;
 }
 function onChangeInputContents () {
 	contents = document.getElementById('contents').value;
 }
-
 var tags = [];
 var tag = {};
 var places = [];
 
 var postingData = {};    	
 
-//폼데이터 불러오기
+//폼전송
 function submitForm(){
+	//폼데이터 불러오기	
 	postingData = {
 		title : title,
 		contents : contents,
@@ -104,7 +105,20 @@ function submitForm(){
 		places : places
 	}	
 	
-	console.log(postingData);
+	console.log("전송할 데이터 : "+postingData);
+	
+	$.ajax({
+		url : '/odega/views/post/postingPro',
+		//dataType : 'json',
+		contentType: false,
+        processData: false,
+		type : 'POST',
+		data : formdata,	//json일땐, JSON.stringify(data)
+		success : function(result) {
+			console.log(result);
+		}
+	});
+	
 }
 
 $(document).ready(function () {

@@ -7,7 +7,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>파워가이드</title>
-
 <!--boot css-->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <!--boot js-->
@@ -16,23 +15,13 @@
 </head>
 <body>
 	<!--header-->
-	<header class="bg-dark text-white d-flex justify-content-between align-items-center">
-		<logo class="m-3">ODEGA</logo>
-		<!-- 로그인 안했을때 -->
-		<div id="loginBox" class="d-flex justify-content-end m-3">
-			<a>로그인</a> <a>회원가입</a>
-		</div>
-		<!-- 로그인 했을때
-        <div id="miniProfile"></div> -->
-	</header>
-
+	<%@ include file="../user/top.jsp"%>  
 	<section>
 		<div>
 			<!-- 메뉴 -->
 			<div class="mt-3 ms-3">
-				<b>탐색</b>
-				<hr>
-				<a href="./main_theme.jsp">테마별</a> <b>파워가이드</b>
+				
+				<a href="../filter/main_theme.jsp">테마별</a> <b>파워가이드</b>
 			</div>
 			<hr>
 			<!-- 파워가이드 -->
@@ -62,7 +51,7 @@
 								<%=rs.getInt("user_like_cnt") %>
 								명
 							</p>
-							<a href="./content.jsp" class="btn btn-primary"> 방문하기 </a>
+							<a href="../post/postView.jsp?num=<%=rs.getInt("num") %>" class="btn btn-primary"> 방문하기 </a>
 						</div>
 					</div>
 					<%} %>

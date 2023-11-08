@@ -21,71 +21,52 @@
 <link href="./themeView.css" rel="stylesheet">
 </head>
 <body>
-	<!--header-->
-	<header class="bg-dark text-white d-flex justify-content-between align-items-center">
-		<logo class="m-3">ODEGA</logo>
-
-		<!-- 로그인 안했을때 -->
-		<div id="loginBox" class="d-flex justify-content-end m-3">
-			<a>로그인</a> <a>회원가입</a>
-		</div>
-		<!-- 로그인 했을때
-        <div id="miniProfile"></div> -->
-	</header>
-
-
-
+	 <!--header-->
+    <%@ include file="../user/top.jsp"%>
+    <!--/header-->
 	<!-- 메뉴 -->
 	<div class="mt-3 ms-3">
-		<b>탐색</b>
-		<hr>
-		<b>테마별</b> <a href="./powerGuide.jsp">파워가이드</a></br>
-		<hr>
-		<%@include file="filter.jsp"%><!-- 필터 박스 -->
-		<!-- 검색전에는 인기 게시물을 나타냅니다 -->
-		<b>요즘 가장 많이 보는 포스팅</b><br>
-		<br>
-		<div class="d-flex justify-content-start align-items-center">
 
-			<% 
+	               	<b>테마별</b>
+	               	<a href="./powerGuide.jsp">파워가이드</a></br>
+	               	<hr>
+	               	<%@include file="filter.jsp" %><!-- 필터 박스 -->
+	                <!-- 검색전에는 인기 게시물을 나타냅니다 -->	
+	               	<b>요즘 가장 많이 보는 포스팅</b><br><br>
+	               	<div class="d-flex justify-content-start align-items-center">
+	           <% 
                 	//인기글(게시물 좋아요를 많이 받은 순서)를 찾는 쿼리문
 				  	String sql ="select a.*, b.*, c.* from posts a join users b on a.user_num = b.num join images c on a.num = c.posts_num order by a.post_like_cnt desc";
                 	pstmt = conn.prepareStatement(sql);
     				rs = pstmt.executeQuery();
     				while (rs.next()) {
     			%>
-
-			<div id="profileBox" class="d-flex justify-content-center m-1">
-				<img src="<%=rs.getString("img_url") %>" width="200 px" height="180 px">
-				<div id="infoBox" class="m-3">
-					<a href="./content.jsp" title="<%=rs.getString("nickname")%>의 포스팅 보기"><%=rs.getString("title") %><a><br> <%=rs.getString("nickname") %> 님 <br> <%=rs.getString("content") %><br>
-							<div>
-								<div class="tag">#힐링</div>
-								<div class="tag">#가을</div>
-								<div class="tag">#시티투어</div>
-							</div>
-							<div class="d-flex justify-content-start align-items-center">
-								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                	<div id="profileBox" class="d-flex justify-content-center m-1">
+                    <img src="<%=rs.getString("img_url") %>" width="200 px" height="180 px">
+                    <div id="infoBox" class="m-3">
+                        <a href="../post/postView.jsp?num=<%=rs.getInt("num") %>" title="<%=rs.getString("nickname")%>의 포스팅 보기" ><%=rs.getString("title") %><a><br>      
+                        <%=rs.getString("nickname") %> 님 <br>
+                    
+                        <div>
+                            <div class="tag"><%=rs.getTimestamp("reg") %></div>
+                         </div>
+                        <div class="d-flex justify-content-start align-items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                             </svg>
-
-								<div class="ms-1"><%=rs.getInt("post_like_cnt") %></div>
-							</div>
-				</div>
-			</div>
-		</div>
-		<br>
-		<%} 	
-					if (rs != null)
+                            <div class="ms-1"><%=rs.getInt("post_like_cnt") %></div>
+                        </div>
+                </div>
+            </div>
+            </div>
+            <br> <%} 	
+    				if (rs != null)
 						rs.close();
 		 			if (pstmt != null)
 		 				pstmt.close();
 		 			if (conn != null)
 						conn.close();
 			%>
-
-		<hr>
-	</div>
-
-
-</body>
+            <hr>
+       		</div>   
+    </body>

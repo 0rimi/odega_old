@@ -75,3 +75,39 @@ logo {
 #info div{
     margin: 30px 50px;
 }
+
+#category{
+	 padding: 15px 10px;
+}
+#category input[type=radio]{
+    display: none;
+}
+#category input[type=radio]+label{
+    display: inline-block;
+    cursor: pointer;
+    height: 24px;
+    width: 90px;
+    border: 1px solid #333;
+    line-height: 24px;
+    text-align: center;
+    font-weight:bold;
+    font-size:13px;
+}
+#category input[type=radio]+label{
+    background-color: #fff;
+    color: #333;
+}
+#category input[type=radio]:checked+label{
+    background-color: #333;
+    color: #fff;
+}
+img {
+        display: flex;
+        align-items: center; /* 세로 중앙 정렬 */
+        width: 200px;
+        height: 180px;
+    }
+
+ img {
+        max-height: 100%; /* 이미지의 최대 높이를 부모 요소에 맞게 조절 */
+    }
