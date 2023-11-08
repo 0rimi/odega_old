@@ -82,5 +82,29 @@ private static PostsDAO instance = new PostsDAO();
            close(rs, pstmt, conn);
         }return likeup;
      }
+	
+	public int adminLike(int posts_num) {
+		int adminlike=0;
+		Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+        	pstmt = conn.prepareStatement("select admin_like from posts where num = ?");
+        	pstmt.setInt(1, posts_num);
+        	rs = pstmt.executeQuery();
+        	
+        	if(rs.getInt("admin_like")<=0) {
+        		pstmt = conn.prepareStatement("update posts set admin_like = admin_like + 1 where num = ?");
+        		pstmt.setInt(1, posts_num);
+        		adminlike = pstmt.executeUpdate();
+        	}
+        	
+        }catch(Exception e) {
+        	e.printStackTrace();;
+        }finally {
+        	close(rs, pstmt, conn);
+        }
+        return adminlike;
+	}
 
 }

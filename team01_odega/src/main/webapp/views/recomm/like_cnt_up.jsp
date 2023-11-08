@@ -27,9 +27,11 @@
       //System.out.println(user_id+"----"+post_num);
       if(check == 1 || check == 0){
          PostsDAO dao = new PostsDAO();
-         
          dao.likeUp(post_num);
          like_dao.saveLikeList(user_id, post_num);
+         if(user_id == "admin"){
+        	dao.adminLike(post_num); 
+         }
          response.sendRedirect(rpage);
       }else if(check == -1){%>
 		<script> 

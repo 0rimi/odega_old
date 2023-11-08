@@ -96,7 +96,9 @@
    %>
    
 <div class="container">
+	<p style="padding-left: 20px;" class="display-6">최신글</p>
  	<div class="row" align="center">
+ 	<br />
 <%
 	   myPageDAO dao = new myPageDAO();
 	   ArrayList<myPageDTO> list = dao.mainList(start, end , msql1 , msql2);
@@ -160,16 +162,17 @@
 </div>
 <h1></h1>
 
-	<!-- 조회수 높은 순 정렬 -->	
-				<div class="container">
-				<p style="padding-left: 20px;" class="display-6">인기글</p>
-				
+	<!-- 운영자 추천 게시글 -->
+			<div class="container">
+			<p style="padding-left: 20px;" class="display-6">에디터's Pick</p>
+			
 					<div class="row" align="center">
+					<br />
 				<%
 					MainDAO mdao = new MainDAO();
-					
-					ArrayList<MainDTO> cList = mdao.mostClickList();
-					for (MainDTO mdto : cList){
+				
+					ArrayList<MainDTO> aList = mdao.adminList();
+					for (MainDTO mdto : aList){
 					%>
 						<div class="col-md-4">
 							<a href="../views/post/postView.jsp?num=<%= mdto.getNum()%>"> <img src="/odega/resources/img/<%=mdto.getImg_url()%>" style="width: 200px; height: 170px;" border="2;" />
@@ -201,6 +204,7 @@
 			<p style="padding-left: 20px;" class="display-6">주간 랭킹</p>
 			
 					<div class="row" align="center">
+					<br />
 				<%
 					ArrayList<MainDTO> wList = mdao.weeklyList();
 					for (MainDTO mdto : wList){
