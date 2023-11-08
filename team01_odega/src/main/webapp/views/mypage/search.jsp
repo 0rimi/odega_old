@@ -126,7 +126,7 @@
 							ArrayList<myPageDTO> list = dao.searchList(search, searchOption, start, end, sql1, sql2);
 							for(myPageDTO sdto : list){
 						%><div class="col-md-4">
-									<a href="posts.jsp?num=<%= sdto.getPost_num()%>">
+									<a href="../post/postView.jsp?num=<%=sdto.getPost_num()%>">
 										<img src="/odega/resources/img/<%=sdto.getImg()%>" style="width:200px; height:170px;" border="2;" />
 									</a>
 									<a href="posts.jsp?num=<%= sdto.getPost_num()%>">

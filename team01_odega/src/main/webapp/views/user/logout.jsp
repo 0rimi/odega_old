@@ -4,5 +4,5 @@
   <%
 	session.removeAttribute("sid");
 
-	response.sendRedirect("top.jsp");
+	response.sendRedirect("../main.jsp");
   %>

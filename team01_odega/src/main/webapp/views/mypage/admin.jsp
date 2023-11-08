@@ -6,7 +6,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title> ODEGA MyPage </title>
+<title> ODEGA 관리자 페이지 </title>
 <link href="/odega/resources/img/good.PNG" rel="shortcut icon" type="image/x-icon">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
@@ -61,7 +61,7 @@
 	<%-- 관리자 계정의 글정보 확인(최신순, 오래된순, 좋아요순 , 검색) --%>
 	<%-- 검색(제목만 검색) , 검색(제목+본문 검색) --%>
 	<div align="center">
-		<form action="adminMemberSearch.jsp">
+		<form action="adminPostSearch.jsp">
 			&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
 				<img src="/odega/resources/img/today.png" style="width: 130px"> <img src="/odega/resources/img/odega.gif" style="width: 200px"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
 				<a href="admin.jsp?msql1=p.reg&msql2=desc"><button type="button" class="btn btn-success">추천/글삭제</button></a>
@@ -154,10 +154,10 @@
 												</script>
 												<button onclick="del();" type="button" class="btn btn-success" >삭제</button>
 												<h3></h3>
-												<hr />    <%-- <a href="myPostsDelete.jsp?num=<%=dto.getPost_num()%>"></a> --%>
+												<hr />
 												
 
-							</div>
+								</div>
 						<% } %>
 						</div>
 				</div>

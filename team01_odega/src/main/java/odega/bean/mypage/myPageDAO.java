@@ -313,6 +313,72 @@ public class myPageDAO extends OracleDB {
 		return list;
 	}
 	
+	// 삭제할 포스트 검색 (제목만 , 제목+본문)
+	public ArrayList<myPageDTO> searchPostDel(String search, String searchOption, int start, int end, String sql1, String sql2){
+		ArrayList<myPageDTO> list = new ArrayList<>();
+		conn = getConnection();
+		try {
+			if(searchOption.equals("title")) {
+				String sql = " select * from "
+						+ " (select ro.* , rownum r from "
+						+ " (select u.num, u.nickname, p.title, p.user_num, p.reg, i.img_url, p.content_cnt, i.posts_num, p.posts_views, p.post_like_cnt, p.num \"PNUM\" "
+						+ " from users u, posts p, images i "
+						+ " where u.num = p.user_num and i.posts_num(+) = p.num and p.title like ?  and p.posts_views=0 and post_image_num=1 order by " + sql1 + " " + sql2 +" ) ro) "
+						+ " where r >= ? and r <= ? ";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, "%" + search + "%");
+				pstmt.setInt(2, start);  
+				pstmt.setInt(3, end);  
+				rs = pstmt.executeQuery();
+				while(rs.next()){
+					myPageDTO dto = new myPageDTO();
+					dto.setNum(rs.getInt("num"));
+					dto.setNickname(rs.getString("nickname"));
+					dto.setPost_title(rs.getString("title"));
+					dto.setPost_user_num(rs.getInt("user_num"));
+					dto.setPost_reg(rs.getTimestamp("reg"));
+					dto.setPost_num(rs.getInt("pnum"));
+					dto.setImg(rs.getString("img_url"));
+					dto.setPost_like_cnt(rs.getInt("post_like_cnt"));
+					dto.setPost_content_cnt(rs.getInt("content_cnt"));
+					list.add(dto);
+				}
+			} else{
+				String sql = " select * from "
+						+ " (select ro.* , rownum r from "
+						+ " (select u.num, u.nickname, p.title, p.user_num, p.reg, i.img_url, p.content_cnt, i.posts_num, p.posts_views, p.post_like_cnt, p.num \"PNUM\" "
+						+ " from users u, posts p, images i "
+						+ " where u.num = p.user_num and i.posts_num(+) = p.num and (p.title like ? or p.content like ?) and p.posts_views=0 and post_image_num=1  order by "  + sql1 + " " + sql2 + " ) ro) "
+						+ " where r >= ? and r <= ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, "%" + search + "%");
+				pstmt.setString(2, "%" + search + "%");
+				pstmt.setInt(3, start);  
+				pstmt.setInt(4, end);  
+				rs = pstmt.executeQuery();
+				while(rs.next()){
+					myPageDTO dto = new myPageDTO();
+					dto.setNum(rs.getInt("num"));
+					dto.setNickname(rs.getString("nickname"));
+					dto.setPost_title(rs.getString("title"));
+					dto.setPost_user_num(rs.getInt("user_num"));
+					dto.setPost_reg(rs.getTimestamp("reg"));
+					dto.setPost_num(rs.getInt("pnum"));
+					dto.setImg(rs.getString("img_url"));
+					dto.setPost_like_cnt(rs.getInt("post_like_cnt"));
+					dto.setPost_content_cnt(rs.getInt("content_cnt"));
+					list.add(dto);
+				}
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			close(rs, pstmt, conn);
+		}
+		return list;
+	}
+	
 	// 댓글 목록
 	public ArrayList<myPageDTO> commtList(int num){
 		ArrayList<myPageDTO> list = new ArrayList<>();
